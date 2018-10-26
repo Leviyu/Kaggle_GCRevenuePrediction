@@ -33,7 +33,7 @@ class lets_train():
     
     def __init__(self,train_df,test_df,target):
         
-        feat_to_drop = ['visitId','date',
+        feat_to_drop = ['visitId',
                        
                         'fullVisitorId'
                         ]
@@ -127,7 +127,7 @@ class lets_train():
             model_name = model.__class__.__name__
             print("----> output submission for ", model_name)
             pred_test = self.pred[model_name]
-            model_out_file = "../aws_out/"+model_name+".csv"
+            model_out_file = "~/aws_out/"+model_name+".csv"
             pred_test[pred_test<0] = 0
             
             sub_df = pd.DataFrame( {'fullVisitorId':test_id} )
