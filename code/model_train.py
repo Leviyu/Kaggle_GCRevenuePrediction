@@ -138,8 +138,7 @@ class lets_train():
             sub_df.to_csv(model_out_file,index=False)
     
             
-# my_train = lets_train(train_df,test_df,'totals.transactionRevenue')
-# my_train.run()
+
 
 
 
