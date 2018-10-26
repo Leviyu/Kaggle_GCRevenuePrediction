@@ -1,4 +1,26 @@
 
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import Imputer
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC, LinearSVC
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.tree import DecisionTreeClassifier as dtree
+from sklearn.linear_model import ElasticNet, Lasso,  BayesianRidge, LassoLarsIC
+from sklearn.ensemble import RandomForestRegressor,  GradientBoostingRegressor
+from sklearn.kernel_ridge import KernelRidge
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import RobustScaler
+from sklearn.base import BaseEstimator, TransformerMixin, RegressorMixin, clone
+from sklearn.model_selection import KFold, cross_val_score, train_test_split
+from sklearn.metrics import mean_squared_error
+import xgboost as xgb
+import lightgbm as lgb
+
+
 
 
 class lets_train():
@@ -14,8 +36,7 @@ class lets_train():
         feat_to_drop = ['visitId','date',
                        
                         'fullVisitorId'
-            
-                       ]
+                        ]
         
         
         print("---> our model pipline is created")
@@ -57,11 +78,6 @@ class lets_train():
     def define_models(self):
         MLA_Columns = ["ModelName","CVScoreMean","CVScoreSTD"]
         self.MLA = pd.DataFrame(columns=MLA_Columns)
-#         self.models = [LogisticRegression(),
-#                        dtree(),
-#                        RandomForestClassifier(),
-#                        GaussianNB()]
-#         self.models = [RandomForestRegressor()]
         self.models=[lgb.LGBMRegressor(
         num_leaves=30,
         min_child_samples=100,
@@ -122,8 +138,8 @@ class lets_train():
             sub_df.to_csv(model_out_file,index=False)
     
             
-my_train = lets_train(train_df,test_df,'totals.transactionRevenue')
-my_train.run()
+# my_train = lets_train(train_df,test_df,'totals.transactionRevenue')
+# my_train.run()
 
 
 
