@@ -1,3 +1,26 @@
+import os
+import json
+import numpy as np
+import pandas as pd
+from pandas.io.json import json_normalize
+import matplotlib.pyplot as plt
+import seaborn as sns
+color = sns.color_palette()
+
+## supress warning
+import warnings
+warnings.filterwarnings("ignore")
+
+from plotly import tools
+import plotly.offline as py
+py.init_notebook_mode(connected=True)
+import plotly.graph_objs as go
+
+from sklearn import model_selection, preprocessing, metrics
+import lightgbm as lgb
+
+pd.options.mode.chained_assignment = None
+pd.options.display.max_columns = 999
 
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.pipeline import make_pipeline
@@ -40,10 +63,12 @@ class lets_train():
         
         
         print("---> our model pipline is created")
+        self.test_id = test_df['fullVisitorId'].values
         self.train_df = train_df.drop(feat_to_drop,axis=1)
         self.test_df = test_df.drop(feat_to_drop,axis=1)
         self.target = target
         
+
 #         print(self.train_df[self.target])
         self.train_x = self.train_df.drop(self.target,axis=1)
         self.train_y = np.log1p(self.train_df[target])
@@ -86,7 +111,9 @@ class lets_train():
         feature_fraction=0.5,
         bagging_frequency=5,
         bagging_seed=2018
+
         )]
+
     
     
         for index, model in enumerate(self.models):
@@ -122,7 +149,6 @@ class lets_train():
             self.MLA.loc[index,'CVScoreSTD'] = rmse.std()
             
     def sub_result(self):
-        
         for model in self.models:
             model_name = model.__class__.__name__
             print("----> output submission for ", model_name)
@@ -130,7 +156,7 @@ class lets_train():
             model_out_file = "~/aws_out/"+model_name+".csv"
             pred_test[pred_test<0] = 0
             
-            sub_df = pd.DataFrame( {'fullVisitorId':test_id} )
+            sub_df = pd.DataFrame( {'fullVisitorId':self.test_id} )
             sub_df['PredictedLogRevenue'] = np.expm1(pred_test)
             sub_df = sub_df.groupby('fullVisitorId')['PredictedLogRevenue'].sum().reset_index()
             sub_df.columns = ['fullVisitorId','PredictedLogRevenue']
