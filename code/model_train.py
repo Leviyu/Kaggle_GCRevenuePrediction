@@ -103,16 +103,19 @@ class lets_train():
     def define_models(self):
         MLA_Columns = ["ModelName","CVScoreMean","CVScoreSTD"]
         self.MLA = pd.DataFrame(columns=MLA_Columns)
-        self.models=[lgb.LGBMRegressor(
-        num_leaves=30,
-        min_child_samples=100,
-        learning_rate=0.1,
-        bagging_fraction=0.7,
-        feature_fraction=0.5,
-        bagging_frequency=5,
-        bagging_seed=2018
+        self.models=[
+        lgb.LGBMRegressor(
+            num_leaves=30,
+            min_child_samples=100,
+            learning_rate=0.1,
+            bagging_fraction=0.7,
+            feature_fraction=0.5,
+            bagging_frequency=5,
+            bagging_seed=2018
+        ),
+        make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1))
 
-        )]
+        ]
 
     
     
