@@ -42,9 +42,47 @@ from sklearn.model_selection import KFold, cross_val_score, train_test_split
 from sklearn.metrics import mean_squared_error
 import xgboost as xgb
 import lightgbm as lgb
+import multiprocessing
+import time
+
+##from StackingAveragedModels import StackingAveragedModels
 
 
-
+class StackingAveragedModels(BaseEstimator, RegressorMixin, TransformerMixin):
+    def __init__(self, base_models, meta_model, n_folds=5):
+        self.base_models = base_models
+        self.meta_model = meta_model
+        self.n_folds = n_folds
+   
+    # We again fit the data on clones of the original models
+    def fit(self, X, y):
+        self.base_models_ = [list() for x in self.base_models]
+        self.meta_model_ = clone(self.meta_model)
+        kfold = KFold(n_splits=self.n_folds, shuffle=True, random_state=156)
+        
+        # Train cloned base models then create out-of-fold predictions
+        # that are needed to train the cloned meta-model
+        out_of_fold_predictions = np.zeros((X.shape[0], len(self.base_models)))
+        for i, model in enumerate(self.base_models):
+            print("--> Trying to fit model :",i)
+            for train_index, holdout_index in kfold.split(X, y):
+                instance = clone(model)
+                self.base_models_[i].append(instance)
+                instance.fit(X[train_index], y[train_index])
+                y_pred = instance.predict(X[holdout_index])
+                out_of_fold_predictions[holdout_index, i] = y_pred
+                
+        # Now train the cloned  meta-model using the out-of-fold predictions as new feature
+        self.meta_model_.fit(out_of_fold_predictions, y)
+        return self
+   
+    #Do the predictions of all base models on the test data and use the averaged predictions as 
+    #meta-features for the final prediction which is done by the meta-model
+    def predict(self, X):
+        meta_features = np.column_stack([
+            np.column_stack([model.predict(X) for model in base_models]).mean(axis=1)
+            for base_models in self.base_models_ ])
+        return self.meta_model_.predict(meta_features)
 
 class lets_train():
     #
@@ -54,8 +92,8 @@ class lets_train():
     # 3. trains the model and predict on test set
     # 4. calculate all kinds of metrics of the model
     
-    def __init__(self,train_df,test_df,target):
-        
+    def __init__(self,train_df,test_df,target,work_id):
+        self.ID = work_id
         feat_to_drop = ['visitId',
                        
                         'fullVisitorId'
@@ -93,6 +131,9 @@ class lets_train():
         # 3. use models to train and predict
         self.train_predict()
         
+        # 4. Ensemble models
+        self.ensemble_models(method="averaging")
+
         # 4. output submitted result
         self.sub_result()
         
@@ -103,72 +144,125 @@ class lets_train():
     def define_models(self):
         MLA_Columns = ["ModelName","CVScoreMean","CVScoreSTD"]
         self.MLA = pd.DataFrame(columns=MLA_Columns)
-        self.models=[
-        lgb.LGBMRegressor(
-            num_leaves=30,
-            min_child_samples=100,
-            learning_rate=0.1,
-            bagging_fraction=0.7,
-            feature_fraction=0.5,
-            bagging_frequency=5,
-            bagging_seed=2018
-        ),
-        make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1))
+        self.base_models={
+                "lgb" : lgb.LGBMRegressor(
+                        num_leaves=30,
+                        min_child_samples=100,
+                        learning_rate=0.1,
+                        bagging_fraction=0.7,
+                        feature_fraction=0.5,
+                        bagging_frequency=5,
+                        bagging_seed=2018),
+                "lasso":make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1)),
+                "elasticNet":make_pipeline(RobustScaler(), ElasticNet(alpha=0.0005, l1_ratio=.9, random_state=3)),
+                ##"KRR":KernelRidge(alpha=0.6 ),
+                ##"KRR":KernelRidge(alpha=0.6, kernel='polynomial', degree=2, coef0=2.5),
+                "gboost":GradientBoostingRegressor(n_estimators=3000, learning_rate=0.05,
+                    max_depth=4, max_features='sqrt',min_samples_leaf=15, min_samples_split=10, 
+                    loss='huber', random_state =5),
+                "xgboost":xgb.XGBRegressor(colsample_bytree=0.4603, gamma=0.0468, 
+                    learning_rate=0.05, max_depth=3, min_child_weight=1.7817, n_estimators=2200,
+                    reg_alpha=0.4640, reg_lambda=0.8571,subsample=0.5213, silent=1,
+                    random_state =7, nthread = -1),
+                }
+        ##self.meta_models = {
+            ##}
 
-        ]
+        self.models = {
+            "stack": StackingAveragedModels(
+                base_models = (
+                    ##self.base_models['lgb'],
+                    ##self.base_models['gboost'],
+                    make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1)),
+                    make_pipeline(RobustScaler(), ElasticNet(alpha=0.0005, l1_ratio=.9, random_state=3)),
+                    ##self.base_models['lasso'],
+                    ##self.base_models['elasticNet']
+                    ),
+                meta_model = 
+                make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1)))
+                ##, meta_model = self.base_models['lasso'])
+            }
 
+        self.models = self.base_models;
     
-    
-        for index, model in enumerate(self.models):
-            self.MLA.loc[index,'ModelName'] = model.__class__.__name__
+        index = 0
+        for  model,value in self.models.items():
+            ##self.MLA.loc[index,'ModelName'] = model.__class__.__name__
+            self.MLA.loc[index,'ModelName'] = model
+            index+=1
+
         self.pred = pd.DataFrame(columns=self.MLA['ModelName'])
         
-        for model in self.models:
-            print("---> models we used include:",model.__class__.__name__)
+        for model,value in self.models.items():
+            ##print("---> models we used include:",model.__class__.__name__)
+            print("---> models we used include:",model)
          
         self.predictions = []
     
     def train_predict(self):
-        for index, model in enumerate(self.models):
-            print(" ---> Work on train&Predict for %s "% model.__class__.__name__)
+        for model_name,model in self.models.items():
+            print(" ---> Work on train&Predict for %s "% model)
             model.fit(self.train_x,self.train_y)
-            model_name = model.__class__.__name__
-            pred = model.predict(self.test_x)
+            pred_log = model.predict(self.test_x)
+            pred = np.expm1(pred_log)
             self.pred[model_name] = pred
     
     def cv_models(self):
         nfold = 3
         cv_split = model_selection.ShuffleSplit(n_splits=nfold,test_size=0.3,
                                        train_size=0.7,random_state=43)
-        for index, model in enumerate(self.models):
-            print(" ---> Work on CV for %s "% model.__class__.__name__)
+        index = 0
+        for model_name, model in self.models.items():
+            # use muiti processing to speed up this process
+            print(" ---> Work on CV for %s "% model_name)
             
+            start = time.time()
             rmse = np.sqrt(-cross_val_score(model,self.train_x.values,self.train_y,
                                            scoring='neg_mean_squared_error',
                                            cv = cv_split))
-            
-    
+                                           ##cv = cv_split,n_jobs=-1))
+            end = time.time()
+            print("  time spent: ", end-start)
+
             self.MLA.loc[index,'CVScoreMean'] = rmse.mean()
             self.MLA.loc[index,'CVScoreSTD'] = rmse.std()
+            index+=1
+
+    def ensemble_models(self,method):
+        if method is "averaging":
+            dimension = self.test_df.shape[0]
+            sum_pred = np.zeros(dimension)
+            sum_weight = 0
+            self.models['average'] = 'ensemble'
+            self.pred['average'] = pd.DataFrame(np.zeros(dimension))
+            for model_name,model in self.models.items():
+                weight = 1
+                self.pred['average'] = self.pred['average'] + self.pred[model_name] * weight
+
+
             
     def sub_result(self):
-        for model in self.models:
-            model_name = model.__class__.__name__
+        for model_name,model in self.models.items():
             print("----> output submission for ", model_name)
             pred_test = self.pred[model_name]
-            model_out_file = "~/aws_out/"+model_name+".csv"
+            work_dir = "~/aws_out/"+self.ID;
+            ##os.mkdir(work_dir)
+            cmd = "mkdir -p "+work_dir
+            os.system(cmd)
+            model_out_file = work_dir+"/"+model_name+".csv"
             pred_test[pred_test<0] = 0
             
             sub_df = pd.DataFrame( {'fullVisitorId':self.test_id} )
-            sub_df['PredictedLogRevenue'] = np.expm1(pred_test)
+            sub_df['PredictedLogRevenue'] = pred_test
             sub_df = sub_df.groupby('fullVisitorId')['PredictedLogRevenue'].sum().reset_index()
             sub_df.columns = ['fullVisitorId','PredictedLogRevenue']
             sub_df['PredictedLogRevenue'] = np.log1p(sub_df['PredictedLogRevenue'])
             sub_df.to_csv(model_out_file,index=False)
+        ## save meta info into files too
+        self.MLA.to_csv(work_dir+"/MLA.csv")
+        self.pred.to_csv(work_dir+"/pred.csv")
+
     
             
-
-
-
 
 

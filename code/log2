@@ -1,0 +1,45 @@
+{'text/html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>", 'text/vnd.plotly.v1+html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>"}
+--> Work on ID:  T2_job4
+---> our model pipline is created
+train shape is   (903653, 39)
+test shape is   (804684, 38)
+---> models we used include: lgb
+---> models we used include: lasso
+---> models we used include: elasticNet
+---> models we used include: gboost
+---> models we used include: xgboost
+ ---> Work on CV for lgb 
+Traceback (most recent call last):
+  File "./gc.py", line 20, in <module>
+    my_train.run()
+  File "/home/ubuntu/Kaggle_GCRevenuePrediction/code/model_train.py", line 129, in run
+    self.cv_models()
+  File "/home/ubuntu/Kaggle_GCRevenuePrediction/code/model_train.py", line 222, in cv_models
+    cv = cv_split,n_jobs=4))
+  File "/home/ubuntu/anaconda3/lib/python3.6/site-packages/sklearn/model_selection/_validation.py", line 342, in cross_val_score
+    pre_dispatch=pre_dispatch)
+  File "/home/ubuntu/anaconda3/lib/python3.6/site-packages/sklearn/model_selection/_validation.py", line 206, in cross_validate
+    for train, test in cv.split(X, y, groups))
+  File "/home/ubuntu/anaconda3/lib/python3.6/site-packages/sklearn/externals/joblib/parallel.py", line 749, in __call__
+    n_jobs = self._initialize_backend()
+  File "/home/ubuntu/anaconda3/lib/python3.6/site-packages/sklearn/externals/joblib/parallel.py", line 547, in _initialize_backend
+    **self._backend_args)
+  File "/home/ubuntu/anaconda3/lib/python3.6/site-packages/sklearn/externals/joblib/_parallel_backends.py", line 317, in configure
+    self._pool = MemmapingPool(n_jobs, **backend_args)
+  File "/home/ubuntu/anaconda3/lib/python3.6/site-packages/sklearn/externals/joblib/pool.py", line 600, in __init__
+    super(MemmapingPool, self).__init__(**poolargs)
+  File "/home/ubuntu/anaconda3/lib/python3.6/site-packages/sklearn/externals/joblib/pool.py", line 420, in __init__
+    super(PicklingPool, self).__init__(**poolargs)
+  File "/home/ubuntu/anaconda3/lib/python3.6/multiprocessing/pool.py", line 174, in __init__
+    self._repopulate_pool()
+  File "/home/ubuntu/anaconda3/lib/python3.6/multiprocessing/pool.py", line 239, in _repopulate_pool
+    w.start()
+  File "/home/ubuntu/anaconda3/lib/python3.6/multiprocessing/process.py", line 105, in start
+    self._popen = self._Popen(self)
+  File "/home/ubuntu/anaconda3/lib/python3.6/multiprocessing/context.py", line 277, in _Popen
+    return Popen(process_obj)
+  File "/home/ubuntu/anaconda3/lib/python3.6/multiprocessing/popen_fork.py", line 19, in __init__
+    self._launch(process_obj)
+  File "/home/ubuntu/anaconda3/lib/python3.6/multiprocessing/popen_fork.py", line 66, in _launch
+    self.pid = os.fork()
+OSError: [Errno 12] Cannot allocate memory
