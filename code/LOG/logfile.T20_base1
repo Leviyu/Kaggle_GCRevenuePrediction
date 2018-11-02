@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/home/ubuntu/Kaggle_GCRevenuePrediction/code/run.py", line 4, in <module>
+    import model_train
+  File "/home/ubuntu/Kaggle_GCRevenuePrediction/code/model_train.py", line 170
+    self.models1 = {
+                 ^
+SyntaxError: invalid syntax

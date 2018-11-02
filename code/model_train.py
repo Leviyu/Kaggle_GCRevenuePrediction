@@ -94,9 +94,8 @@ class lets_train():
     
     def __init__(self,train_df,test_df,target,work_id):
         self.ID = work_id
-        feat_to_drop = ['visitId',
-                       
-                        'fullVisitorId'
+        feat_to_drop = [
+                            'fullVisitorId'
                         ]
         
         
@@ -145,21 +144,20 @@ class lets_train():
         MLA_Columns = ["ModelName","CVScoreMean","CVScoreSTD"]
         self.MLA = pd.DataFrame(columns=MLA_Columns)
         self.base_models={
-                ##"lgb" : lgb.LGBMRegressor(
-                        ##num_leaves=30,
-                        ##min_child_samples=100,
-                        ##learning_rate=0.1,
-                        ##bagging_fraction=0.7,
-                        ##feature_fraction=0.5,
-                        ##bagging_frequency=5,
-                        ##bagging_seed=2018),
-                ##"lasso":make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1)),
-                ##"elasticNet":make_pipeline(RobustScaler(), ElasticNet(alpha=0.0005, l1_ratio=.9, random_state=3)),
+                "lgb" : lgb.LGBMRegressor(
+                        num_leaves=30,
+                        min_child_samples=100,
+                        learning_rate=0.1,
+                        bagging_fraction=0.7,
+                        feature_fraction=0.5,
+                        bagging_seed=2018),
+                "lasso":make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1)),
+                "elasticNet":make_pipeline(RobustScaler(), ElasticNet(alpha=0.0005, l1_ratio=.9, random_state=3)),
                 ##"KRR":KernelRidge(alpha=0.6 ),
-                "KRR":KernelRidge(alpha=0.6, kernel='polynomial', degree=2, coef0=2.5),
-                ##"gboost":GradientBoostingRegressor(n_estimators=3000, learning_rate=0.05,
-                    ##max_depth=4, max_features='sqrt',min_samples_leaf=15, min_samples_split=10, 
-                    ##loss='huber', random_state =5),
+                ##"KRR":KernelRidge(alpha=0.6, kernel='polynomial', degree=2, coef0=2.5),
+                "gboost":GradientBoostingRegressor(n_estimators=3000, learning_rate=0.05,
+                    max_depth=4, max_features='sqrt',min_samples_leaf=15, min_samples_split=10, 
+                    loss='huber', random_state =5),
                 ##"xgboost":xgb.XGBRegressor(colsample_bytree=0.4603, gamma=0.0468, 
                     ##learning_rate=0.05, max_depth=3, min_child_weight=1.7817, n_estimators=2200,
                     ##reg_alpha=0.4640, reg_lambda=0.8571,subsample=0.5213, silent=1,
@@ -212,8 +210,18 @@ class lets_train():
                         bagging_frequency=5,
                         bagging_seed=2018)
                 }
+        self.models3 = {
+                "xgboost":xgb.XGBRegressor(colsample_bytree=0.4603, gamma=0.0468, 
+                    learning_rate=0.05, max_depth=3, min_child_weight=1.7817, n_estimators=2200,
+                    reg_alpha=0.4640, reg_lambda=0.8571,subsample=0.5213, silent=1,
+                    random_state =7, nthread = -1)
+                }
+        self.models4 = {
+                "lasso":make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1)),
+                }
 
         self.models = self.base_models;
+        ##self.models = self.models4;
     
         index = 0
         for  model,value in self.models.items():
@@ -249,7 +257,7 @@ class lets_train():
             start = time.time()
             rmse = np.sqrt(-cross_val_score(model,self.train_x.values,self.train_y,
                                            scoring='neg_mean_squared_error',
-                                           cv = cv_split,n_jobs=-1))
+                                           cv = cv_split,n_jobs=5))
                                            ##cv = cv_split))
             end = time.time()
             print("  time spent: ", end-start)
@@ -276,7 +284,7 @@ class lets_train():
                 weight = weights[index]
                 self.pred['average'] = self.pred['average'] + self.pred[model_name] * weight
                 sum_weight = sum_weight + weight
-                index ++
+                index +=1
             self.pred['average'] = self.pred['average'] / sum_weight
 
 

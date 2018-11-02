@@ -1,28 +1,16 @@
 {'text/html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>", 'text/vnd.plotly.v1+html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>"}
---> Work on ID:  T2_allcpu
+--> Work on ID:  T22
 ---> our model pipline is created
-train shape is   (903653, 39)
-test shape is   (804684, 38)
+train shape is   (903653, 40)
+test shape is   (804684, 39)
 ---> models we used include: lgb
 ---> models we used include: lasso
 ---> models we used include: elasticNet
 ---> models we used include: gboost
----> models we used include: xgboost
  ---> Work on CV for lgb 
-[LightGBM] [Warning] Unknown parameter: bagging_frequency
 [LightGBM] [Warning] feature_fraction is set=0.5, colsample_bytree=1.0 will be ignored. Current value: feature_fraction=0.5
 [LightGBM] [Warning] bagging_fraction is set=0.7, subsample=1.0 will be ignored. Current value: bagging_fraction=0.7
-[LightGBM] [Warning] Unknown parameter: bagging_frequency
 [LightGBM] [Warning] feature_fraction is set=0.5, colsample_bytree=1.0 will be ignored. Current value: feature_fraction=0.5
 [LightGBM] [Warning] bagging_fraction is set=0.7, subsample=1.0 will be ignored. Current value: bagging_fraction=0.7
-[LightGBM] [Warning] Unknown parameter: bagging_frequency
 [LightGBM] [Warning] feature_fraction is set=0.5, colsample_bytree=1.0 will be ignored. Current value: feature_fraction=0.5
 [LightGBM] [Warning] bagging_fraction is set=0.7, subsample=1.0 will be ignored. Current value: bagging_fraction=0.7
-  time spent:  665.4594576358795
- ---> Work on CV for lasso 
-  time spent:  42.04920721054077
- ---> Work on CV for elasticNet 
-  time spent:  43.75385403633118
- ---> Work on CV for gboost 
-  time spent:  251.74058961868286
- ---> Work on CV for xgboost 

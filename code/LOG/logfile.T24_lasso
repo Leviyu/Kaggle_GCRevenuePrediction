@@ -1,0 +1,16 @@
+{'text/html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>", 'text/vnd.plotly.v1+html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>"}
+--> Work on ID:  T24_lasso
+---> our model pipline is created
+train shape is   (903653, 39)
+test shape is   (804684, 38)
+---> models we used include: lasso
+ ---> Work on CV for lasso 
+  time spent:  41.43149423599243
+ ---> Work on train&Predict for Pipeline(memory=None,
+     steps=[('robustscaler', RobustScaler(copy=True, quantile_range=(25.0, 75.0), with_centering=True,
+       with_scaling=True)), ('lasso', Lasso(alpha=0.0005, copy_X=True, fit_intercept=True, max_iter=1000,
+   normalize=False, positive=False, precompute=False, random_state=1,
+   selection='cyclic', tol=0.0001, warm_start=False))]) 
+----> output submission for  lasso
+  ModelName CVScoreMean   CVScoreSTD
+0     lasso    0.258885  0.000962241
