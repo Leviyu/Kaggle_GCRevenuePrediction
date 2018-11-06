@@ -1,0 +1,253 @@
+---> Cut out the first 5000 line for both train and test
+{'text/html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>", 'text/vnd.plotly.v1+html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>"}
+T4_benchmark
+----> Working on experiment:  T4_benchmark
+----> Loading dataframe, takes about 2min
+Loaded train1.csv. Shape: (4999, 54)
+Loaded test1.csv. Shape: (4999, 53)
+--> now dropping:  socialEngagementType
+--> now dropping:  device.browserSize
+--> now dropping:  device.browserVersion
+--> now dropping:  device.flashVersion
+--> now dropping:  device.language
+--> now dropping:  device.mobileDeviceBranding
+--> now dropping:  device.mobileDeviceInfo
+--> now dropping:  device.mobileDeviceMarketingName
+--> now dropping:  device.mobileDeviceModel
+--> now dropping:  device.mobileInputSelector
+--> now dropping:  device.operatingSystemVersion
+--> now dropping:  device.screenColors
+--> now dropping:  device.screenResolution
+--> now dropping:  geoNetwork.cityId
+--> now dropping:  geoNetwork.latitude
+--> now dropping:  geoNetwork.longitude
+--> now dropping:  geoNetwork.networkLocation
+--> now dropping:  totals.visits
+--> now dropping:  trafficSource.adwordsClickInfo.criteriaParameters
+--> now dropping:  socialEngagementType
+--> now dropping:  device.browserSize
+--> now dropping:  device.browserVersion
+--> now dropping:  device.flashVersion
+--> now dropping:  device.language
+--> now dropping:  device.mobileDeviceBranding
+--> now dropping:  device.mobileDeviceInfo
+--> now dropping:  device.mobileDeviceMarketingName
+--> now dropping:  device.mobileDeviceModel
+--> now dropping:  device.mobileInputSelector
+--> now dropping:  device.operatingSystemVersion
+--> now dropping:  device.screenColors
+--> now dropping:  device.screenResolution
+--> now dropping:  geoNetwork.cityId
+--> now dropping:  geoNetwork.latitude
+--> now dropping:  geoNetwork.longitude
+--> now dropping:  geoNetwork.networkLocation
+--> now dropping:  totals.visits
+--> now dropping:  trafficSource.adwordsClickInfo.criteriaParameters
+--> add extra columns based on fullVisitorId
+----> Clean feature for: visitNumber
+Set 30 visitNumber categories to 'other'; now there are 22 categories in train
+----> Clean feature for: visitFreq
+Set 0 visitFreq categories to 'other'; now there are 6 categories in train
+----> Clean feature for: channelGrouping
+Set 0 channelGrouping categories to 'other'; now there are 7 categories in train
+----> Clean feature for: device.browser
+----> Clean feature for: device.deviceCategory
+----> Clean feature for: device.isMobile
+----> Clean feature for: device.operatingSystem
+----> Clean feature for: geoNetwork.city
+Set 7 geoNetwork.city categories to 'other'; now there are 65 categories in train
+----> Clean feature for: geoNetwork.metro
+Set 1 geoNetwork.metro categories to 'other'; now there are 19 categories in train
+----> Clean feature for: geoNetwork.country
+Set 44 geoNetwork.country categories to 'other'; now there are 64 categories in train
+----> Clean feature for: geoNetwork.continent
+----> Clean networkDomain
+----> Clean feature for: geoNetwork.region
+Set 3 geoNetwork.region categories to 'other'; now there are 48 categories in train
+----> Clean feature for: geoNetwork.subContinent
+----> Clean feature for: totals.bounces
+----> Clean feature for: totals.hits
+Set 35 totals.hits categories to 'other'; now there are 26 categories in train
+----> Clean feature for: totals.newVisits
+----> Clean feature for: totals.pageviews
+Set 21 totals.pageviews categories to 'other'; now there are 24 categories in train
+----> Clean feature for: trafficSource.adContent
+----> Clean feature for: trafficSource.adwordsClickInfo.adNetworkType
+----> Clean feature for: trafficSource.adwordsClickInfo.isVideoAd
+----> Clean feature for: trafficSource.adwordsClickInfo.page
+----> Clean feature for: trafficSource.adwordsClickInfo.slot
+----> Clean feature for: trafficSource.campaign
+----> Clean feature for: trafficSource.isTrueDirect
+----> Clean feature for: trafficSource.keyword
+Set 8 trafficSource.keyword categories to 'other'; now there are 10 categories in train
+----> Clean feature for: trafficSource.medium
+Set 0 trafficSource.medium categories to 'other'; now there are 6 categories in train
+----> Clean feature for: trafficSource.source
+Set 28 trafficSource.source categories to 'other'; now there are 17 categories in train
+---> numerical feature num:  14
+{'vect9', 'vect5', 'visitNumber', 'totals.hits', 'totals.pageviews', 'visitFreq', 'vect2', 'vect3', 'vect7', 'vect10', 'vect6', 'vect8', 'vect1', 'vect4'}
+---> Category feature num:  29
+{'trafficSource.adContent', 'trafficSource.source', 'year', 'trafficSource.isTrueDirect', 'channelGrouping', 'geoNetwork.region', 'totals.bounces', 'trafficSource.adwordsClickInfo.slot', 'trafficSource.medium', 'hour', 'device.browser', 'trafficSource.campaign', 'device.isMobile', 'day_week', 'geoNetwork.continent', 'trafficSource.adwordsClickInfo.adNetworkType', 'device.operatingSystem', 'trafficSource.adwordsClickInfo.isVideoAd', 'trafficSource.keyword', 'day', 'trafficSource.adwordsClickInfo.page', 'geoNetwork.city', 'am_pm', 'totals.newVisits', 'device.deviceCategory', 'geoNetwork.metro', 'geoNetwork.subContinent', 'month', 'geoNetwork.country'}
+---> Drop feature num:  8
+{'visitStartTime', 'date', 'sessionId', 'visitId', 'trafficSource.adwordsClickInfo.gclId', 'geoNetwork.networkDomain', 'trafficSource.campaignCode', 'trafficSource.referralPath'}
+---> Totoal feature num:  51
+---> Checking feature type for:  vect9
+---> Checking feature type for:  vect5
+---> Checking feature type for:  visitNumber
+---> Checking feature type for:  totals.hits
+---> Checking feature type for:  totals.pageviews
+---> Checking feature type for:  visitFreq
+---> Checking feature type for:  vect2
+---> Checking feature type for:  vect3
+---> Checking feature type for:  vect7
+---> Checking feature type for:  vect10
+---> Checking feature type for:  vect6
+---> Checking feature type for:  vect8
+---> Checking feature type for:  vect1
+---> Checking feature type for:  vect4
+---> Checking feature type for:  trafficSource.adContent
+---> Checking feature type for:  trafficSource.source
+---> Checking feature type for:  year
+---> Checking feature type for:  trafficSource.isTrueDirect
+---> Checking feature type for:  channelGrouping
+---> Checking feature type for:  geoNetwork.region
+---> Checking feature type for:  totals.bounces
+---> Checking feature type for:  trafficSource.adwordsClickInfo.slot
+---> Checking feature type for:  trafficSource.medium
+---> Checking feature type for:  hour
+---> Checking feature type for:  device.browser
+---> Checking feature type for:  trafficSource.campaign
+---> Checking feature type for:  device.isMobile
+---> Checking feature type for:  day_week
+---> Checking feature type for:  geoNetwork.continent
+---> Checking feature type for:  trafficSource.adwordsClickInfo.adNetworkType
+---> Checking feature type for:  device.operatingSystem
+---> Checking feature type for:  trafficSource.adwordsClickInfo.isVideoAd
+---> Checking feature type for:  trafficSource.keyword
+---> Checking feature type for:  day
+---> Checking feature type for:  trafficSource.adwordsClickInfo.page
+---> Checking feature type for:  geoNetwork.city
+---> Checking feature type for:  am_pm
+---> Checking feature type for:  totals.newVisits
+---> Checking feature type for:  device.deviceCategory
+---> Checking feature type for:  geoNetwork.metro
+---> Checking feature type for:  geoNetwork.subContinent
+---> Checking feature type for:  month
+---> Checking feature type for:  geoNetwork.country
+-----> Encoding for:  trafficSource.adContent
+-----> Encoding for:  trafficSource.source
+-----> Encoding for:  year
+-----> Encoding for:  trafficSource.isTrueDirect
+-----> Encoding for:  channelGrouping
+-----> Encoding for:  geoNetwork.region
+-----> Encoding for:  totals.bounces
+-----> Encoding for:  trafficSource.adwordsClickInfo.slot
+-----> Encoding for:  trafficSource.medium
+-----> Encoding for:  hour
+-----> Encoding for: /usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning:
+
+the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+
+/usr/local/lib/python3.7/site-packages/lightgbm/__init__.py:46: UserWarning:
+
+Starting from version 2.2.1, the library file in distribution wheels for macOS is built by the Apple Clang (Xcode_9.4.1) compiler.
+This means that in case of installing LightGBM from PyPI via the ``pip install lightgbm`` command, you don't need to install the gcc compiler anymore.
+Instead of that, you need to install the OpenMP library, which is required for running LightGBM on the system with the Apple Clang compiler.
+You can install the OpenMP library by the following command: ``brew install libomp``.
+
+ device.browser
+-----> Encoding for:  trafficSource.campaign
+-----> Encoding for:  device.isMobile
+-----> Encoding for:  day_week
+-----> Encoding for:  geoNetwork.continent
+-----> Encoding for:  trafficSource.adwordsClickInfo.adNetworkType
+-----> Encoding for:  device.operatingSystem
+-----> Encoding for:  trafficSource.adwordsClickInfo.isVideoAd
+-----> Encoding for:  trafficSource.keyword
+-----> Encoding for:  day
+-----> Encoding for:  trafficSource.adwordsClickInfo.page
+-----> Encoding for:  geoNetwork.city
+-----> Encoding for:  am_pm
+-----> Encoding for:  totals.newVisits
+-----> Encoding for:  device.deviceCategory
+-----> Encoding for:  geoNetwork.metro
+-----> Encoding for:  geoNetwork.subContinent
+-----> Encoding for:  month
+-----> Encoding for:  geoNetwork.country
+--> Dropping column for: visitStartTime
+--> Dropping column for: date
+--> Dropping column for: sessionId
+--> Dropping column for: visitId
+--> Dropping column for: trafficSource.adwordsClickInfo.gclId
+--> Dropping column for: geoNetwork.networkDomain
+--> Dropping column for: trafficSource.campaignCode
+--> Dropping column for: trafficSource.referralPath
+---> Write to hdf done
+{'text/html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>", 'text/vnd.plotly.v1+html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>"}
+--> Model training Work on ID:  T4_benchmark
+----> train_df shape is: (4999, 46)
+---> our model pipline is created
+train shape is   (4999, 45)
+test shape is   (4999, 44)
+---> models we used include: lgb
+---> models we used include: lasso
+ ---> Work on CV for lgb 
+/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning:
+
+the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+
+[LightGBM] [Warning] feature_fraction is set=0.5, colsample_bytree=1.0 will be ignored. Current value: feature_fraction=0.5
+[LightGBM] [Warning] bagging_fraction is set=0.7, subsample=1.0 will be ignored. Current value: bagging_fraction=0.7
+[LightGBM] [Warning] feature_fraction is set=0.5, colsample_bytree=1.0 will be ignored. Current value: feature_fraction=0.5
+[LightGBM] [Warning] bagging_fraction is set=0.7, subsample=1.0 will be ignored. Current value: bagging_fraction=0.7
+[LightGBM] [Warning] feature_fraction is set=0.5, colsample_bytree=1.0 will be ignored. Current value: feature_fraction=0.5
+[LightGBM] [Warning] bagging_fraction is set=0.7, subsample=1.0 will be ignored. Current value: bagging_fraction=0.7
+[LightGBM] [Warning] feature_fraction is set=0.5, colsample_bytree=1.0 will be ignored. Current value: feature_fraction=0.5
+[LightGBM] [Warning] bagging_fraction is set=0.7, subsample=1.0 will be ignored. Current value: bagging_fraction=0.7
+  time spent:  2.7948920726776123
+ ---> Work on CV for lasso 
+  time spent:  1.0892798900604248
+ ---> Work on train&Predict for LGBMRegressor(bagging_fraction=0.7, bagging_seed=2018, boosting_type='gbdt',
+       class_weight=None, colsample_bytree=1.0, feature_fraction=0.5,
+       importance_type='split', learning_rate=0.1, max_depth=-1,
+       min_child_samples=100, min_child_weight=0.001, min_split_gain=0.0,
+       n_estimators=100, n_jobs=-1, num_leaves=30, objective=None,
+       random_state=None, reg_alpha=0.0, reg_lambda=0.0, silent=True,
+       subsample=1.0, subsample_for_bin=200000, subsample_freq=0) 
+ ---> Work on train&Predict for Pipeline(memory=None,
+     steps=[('robustscaler', RobustScaler(copy=True, quantile_range=(25.0, 75.0), with_centering=True,
+       with_scaling=True)), ('lasso', Lasso(alpha=0.0005, copy_X=True, fit_intercept=True, max_iter=1000,
+   normalize=False, positive=False, precompute=False, random_state=1,
+   selection='cyclic', tol=0.0001, warm_start=False))]) 
+----> output submission for  lgb
+----> output submission for  lasso
+  ModelName CVScoreMean CVScoreSTD
+0       lgb     0.24446  0.0393865
+1     lasso     0.13491  0.0264359
+/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+/usr/local/lib/python3.7/site-packages/lightgbm/__init__.py:46: UserWarning: Starting from version 2.2.1, the library file in distribution wheels for macOS is built by the Apple Clang (Xcode_9.4.1) compiler.
+This means that in case of installing LightGBM from PyPI via the ``pip install lightgbm`` command, you don't need to install the gcc compiler anymore.
+Instead of that, you need to install the OpenMP library, which is required for running LightGBM on the system with the Apple Clang compiler.
+You can install the OpenMP library by the following command: ``brew install libomp``.
+  "You can install the OpenMP library by the following command: ``brew install libomp``.", UserWarning)
+/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+/usr/local/lib/python3.7/site-packages/lightgbm/__init__.py:46: UserWarning: Starting from version 2.2.1, the library file in distribution wheels for macOS is built by the Apple Clang (Xcode_9.4.1) compiler.
+This means that in case of installing LightGBM from PyPI via the ``pip install lightgbm`` command, you don't need to install the gcc compiler anymore.
+Instead of that, you need to install the OpenMP library, which is required for running LightGBM on the system with the Apple Clang compiler.
+You can install the OpenMP library by the following command: ``brew install libomp``.
+  "You can install the OpenMP library by the following command: ``brew install libomp``.", UserWarning)
+/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+/usr/local/lib/python3.7/site-packages/lightgbm/__init__.py:46: UserWarning: Starting from version 2.2.1, the library file in distribution wheels for macOS is built by the Apple Clang (Xcode_9.4.1) compiler.
+This means that in case of installing LightGBM from PyPI via the ``pip install lightgbm`` command, you don't need to install the gcc compiler anymore.
+Instead of that, you need to install the OpenMP library, which is required for running LightGBM on the system with the Apple Clang compiler.
+You can install the OpenMP library by the following command: ``brew install libomp``.
+  "You can install the OpenMP library by the following command: ``brew install libomp``.", UserWarning)
+/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp

@@ -31,14 +31,17 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 
 ##########################################################################################
-##run_id = sys.argv[1]
+run_id = sys.argv[1]
 
-run_id = "T1"
+print(run_id)
+##run_id = "T1"
 print("----> Working on experiment: ",run_id)
 target = 'totals.transactionRevenue'
 
+
 # train_df = load_df('../data/train.csv')
 # test_df = load_df('../data/test.csv')
+print("----> Loading dataframe, takes about 2min")
 train_df = load_df('../../data/train1.csv')
 test_df = load_df('../../data/test1.csv')
 
@@ -95,14 +98,25 @@ to_drop.append(feat)
 
 ##########################################################################################
 print("--> add extra columns based on fullVisitorId")
-# 1. some visitor visited more then once, and they are more likely to buy items
-# add another column, the number of times the this visitor visited the store
-check_visit_id(train_df)
-check_visit_id(test_df)
-# 2. for visitor who bought items, it is more likely to buy again
-# add another column, 1 if visitor bough anything, 0 if not
-check_visit_revenue(train_df,train_df)
-check_visit_revenue(test_df,train_df)
+# # 1. some visitor visited more then once, and they are more likely to buy items
+# # add another column, the number of times the this visitor visited the store
+# check_visit_id(train_df)
+# check_visit_id(test_df)
+# # 2. for visitor who bought items, it is more likely to buy again
+# # add another column, 1 if visitor bough anything, 0 if not
+# check_visit_revenue(train_df,train_df)
+# check_visit_revenue(test_df,train_df)
+
+##########################################################################################
+# feat = 'visitFreq'
+# feat_type = 'numerical'
+# #     feat_type = 'categorial'
+# missing_fill = 'NULL'
+# combine_value = '19'   ## it is set to 'other' by default
+# clean_current_feature(feat,feat_type,missing_fill,combine_value,
+#     train_df,test_df,numerical_feature,category_feature)
+
+
 
 # ##########################################################################################
 feat = 'visitNumber'
@@ -110,23 +124,17 @@ feat_type = 'numerical'
 #     feat_type = 'categorial'
 missing_fill = 'NULL'
 combine_value = '16'   ## it is set to 'other' by default
+# combine_value = 'NULL'   ## it is set to 'other' by default
 clean_current_feature(feat,feat_type,missing_fill,combine_value,
     train_df,test_df,numerical_feature,category_feature)
-##########################################################################################
-feat = 'visitFreq'
-feat_type = 'numerical'
-#     feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = '19'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
+
 
 ##########################################################################################
 feat = 'channelGrouping'
 # feat_type = 'numerical'
 feat_type = 'categorial'
 missing_fill = 'NULL'
-combine_value = '19'   ## it is set to 'other' by default
+combine_value = 'NULL'   ## it is set to 'other' by default
 clean_current_feature(feat,feat_type,missing_fill,combine_value,
     train_df,test_df,numerical_feature,category_feature)
 ##########################################################################################
@@ -167,6 +175,7 @@ feat = 'geoNetwork.city'
 feat_type = 'categorial'
 missing_fill = 'NULL'
 combine_value = 'other'   ## it is set to 'other' by default
+# combine_value = 'NULL'   ## it is set to 'other' by default
 clean_current_feature(feat,feat_type,missing_fill,combine_value,
     train_df,test_df,numerical_feature,category_feature)
 
@@ -176,6 +185,7 @@ feat = 'geoNetwork.metro'
 feat_type = 'categorial'
 missing_fill = 'NULL'
 combine_value = 'other'   ## it is set to 'other' by default
+# combine_value = 'NULL'   ## it is set to 'other' by default
 clean_current_feature(feat,feat_type,missing_fill,combine_value,
     train_df,test_df,numerical_feature,category_feature)
 
@@ -185,6 +195,7 @@ feat = 'geoNetwork.country'
 feat_type = 'categorial'
 missing_fill = 'NULL'
 combine_value = 'other'   ## it is set to 'other' by default
+# combine_value = 'NULL'   ## it is set to 'other' by default
 clean_current_feature(feat,feat_type,missing_fill,combine_value,
     train_df,test_df,numerical_feature,category_feature)
 
@@ -200,10 +211,12 @@ clean_current_feature(feat,feat_type,missing_fill,combine_value,
 ##########################################################################################
 # clean geoNetwork.networkDomain
 feat = 'geoNetwork.networkDomain'
-clean_networkdomain(train_df,test_df,numerical_feature)
+# train_df, test_df = clean_networkdomain(train_df,test_df,numerical_feature)
 to_drop.append(feat)
 # category_feature.append(feat)
 # print(numerical_feature)
+# print(train_df['vect2'])
+# print(train_df.columns)
 # os._exit(0)
 
 ##########################################################################################
@@ -211,7 +224,8 @@ feat = 'geoNetwork.region'
 # feat_type = 'numerical'
 feat_type = 'categorial'
 missing_fill = 'NULL'
-combine_value = 'other'   ## it is set to 'other' by default
+# combine_value = 'other'   ## it is set to 'other' by default
+combine_value = 'NULL'   ## it is set to 'other' by default
 clean_current_feature(feat,feat_type,missing_fill,combine_value,
     train_df,test_df,numerical_feature,category_feature)
 
@@ -240,6 +254,7 @@ feat_type = 'numerical'
 # feat_type = 'categorial'
 missing_fill = 'NULL'
 combine_value = '35'   ## it is set to 'other' by default
+# combine_value = 'NULL'   ## it is set to 'other' by default
 clean_current_feature(feat,feat_type,missing_fill,combine_value,
     train_df,test_df,numerical_feature,category_feature)
 
@@ -258,6 +273,7 @@ feat_type = 'numerical'
 # feat_type = 'categorial'
 missing_fill = '0'
 combine_value = '29'   ## it is set to 'other' by default
+# combine_value = 'NULL'   ## it is set to 'other' by default
 clean_current_feature(feat,feat_type,missing_fill,combine_value,
     train_df,test_df,numerical_feature,category_feature)
 
@@ -338,6 +354,7 @@ category_feature.append(feat)
 feat_type = 'categorial'
 missing_fill = 'Not Provided'
 combine_value = 'Combined'   ## it is set to 'other' by default
+# combine_value = 'NULL'   ## it is set to 'other' by default
 clean_current_feature(feat,feat_type,missing_fill,combine_value,
     train_df,test_df,numerical_feature,category_feature)
 
@@ -347,6 +364,7 @@ feat = 'trafficSource.medium'
 feat_type = 'categorial'
 missing_fill = 'Not Provided'
 combine_value = 'Combined'   ## it is set to 'other' by default
+# combine_value = 'NULL'   ## it is set to 'other' by default
 clean_current_feature(feat,feat_type,missing_fill,combine_value,
     train_df,test_df,numerical_feature,category_feature)
 
@@ -361,6 +379,7 @@ feat = 'trafficSource.source'
 feat_type = 'categorial'
 missing_fill = 'NULL'
 combine_value = 'Combined'   ## it is set to 'other' by default
+# combine_value = 'NULL'   ## it is set to 'other' by default
 clean_current_feature(feat,feat_type,missing_fill,combine_value,
     train_df,test_df,numerical_feature,category_feature)
 
@@ -415,61 +434,8 @@ for col in to_drop:
 
 ##########################################################################################
 
-output_hdf(train_df,test_df)
+output_hdf(train_df,test_df,run_id)
 # output to hdf format
-
-
-
-
-
-
-##########################################################################################
-
-
-
-
-##########################################################################################
-
-
-
-
-
-
-##########################################################################################
-
-
-
-
-
-
-
-##########################################################################################
-
-
-
-
-
-
-##########################################################################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

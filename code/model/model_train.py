@@ -142,15 +142,15 @@ class lets_train():
                         bagging_seed=2018),
                 "lasso":make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1)),
                 # "elasticNet":make_pipeline(RobustScaler(), ElasticNet(alpha=0.0005, l1_ratio=.9, random_state=3)),
-                ##"KRR":KernelRidge(alpha=0.6 ),
-                ##"KRR":KernelRidge(alpha=0.6, kernel='polynomial', degree=2, coef0=2.5),
+                # ##"KRR":KernelRidge(alpha=0.6 ),
+                # ##"KRR":KernelRidge(alpha=0.6, kernel='polynomial', degree=2, coef0=2.5),
                 # "gboost":GradientBoostingRegressor(n_estimators=3000, learning_rate=0.05,
                 #     max_depth=4, max_features='sqrt',min_samples_leaf=15, min_samples_split=10, 
                 #     loss='huber', random_state =5),
-                ##"xgboost":xgb.XGBRegressor(colsample_bytree=0.4603, gamma=0.0468, 
-                    ##learning_rate=0.05, max_depth=3, min_child_weight=1.7817, n_estimators=2200,
-                    ##reg_alpha=0.4640, reg_lambda=0.8571,subsample=0.5213, silent=1,
-                    ##random_state =7, nthread = -1),
+                # "xgboost":xgb.XGBRegressor(colsample_bytree=0.4603, gamma=0.0468, 
+                #     learning_rate=0.05, max_depth=3, min_child_weight=1.7817, n_estimators=2200,
+                #     reg_alpha=0.4640, reg_lambda=0.8571,subsample=0.5213, silent=1,
+                #     random_state =7, nthread = -1),
                 }
 
         self.models1 = {
@@ -274,7 +274,7 @@ class lets_train():
         for model_name,model in self.models.items():
             print("----> output submission for ", model_name)
             pred_test = self.pred[model_name]
-            work_dir = "~/aws_out/"+self.ID;
+            work_dir = "../RUN/"+self.ID;
             ##os.mkdir(work_dir)
             cmd = "mkdir -p "+work_dir
             os.system(cmd)

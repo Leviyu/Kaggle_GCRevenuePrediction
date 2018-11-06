@@ -248,16 +248,21 @@ def clean_networkdomain(train_df,test_df,numerical_feature):
   df_train_vect = pd.DataFrame(svd.fit_transform(train_vect),columns=vect_cols)
   df_test_vect = pd.DataFrame(svd.fit_transform(test_vect),columns=vect_cols)
   train_df = pd.concat([train_df,df_train_vect],axis=1)
+  # print(train_df.columns)
   test_df = pd.concat([test_df,df_test_vect],axis=1)
-  # for vv in vect_cols:
-  #   numerical_feature.append(vv)
-def output_hdf(train_df,test_df):
+  for vv in vect_cols:
+    numerical_feature.append(vv)
+  return train_df,test_df
+def output_hdf(train_df,test_df,run_id):
   # output to hdf format
   train_out = train_df
   test_out = test_df
 
-  train_df.to_hdf('../../data/train_df1.h5',key='train_df',format='table')
-  test_df.to_hdf('../../data/test_df1.h5',key='test_df',format='table')
+  train_file = "../../data/train_df."+run_id+".h5"
+  test_file = "../../data/test_df."+run_id+".h5"
+
+  train_df.to_hdf(train_file,key='train_df',format='table')
+  test_df.to_hdf(test_file,key='test_df',format='table')
   print("---> Write to hdf done")
 
 
