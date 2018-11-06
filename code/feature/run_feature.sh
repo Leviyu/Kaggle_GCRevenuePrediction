@@ -104,197 +104,300 @@ check_visit_id(test_df)
 check_visit_revenue(train_df,train_df)
 check_visit_revenue(test_df,train_df)
 
-##########################################################################################
+# ##########################################################################################
 feat = 'visitNumber'
-clearRare(feat,train_df,test_df,tag=16)
-check_me(feat)
-numerical_feature.append(feat)
-
+feat_type = 'numerical'
+#     feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = '16'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
 ##########################################################################################
 feat = 'visitFreq'
-clearRare(feat,train_df,test_df,tag=19)
-check_me(feat)
-numerical_feature.append(feat)
+feat_type = 'numerical'
+#     feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = '19'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
 ##########################################################################################
-to_drop.append('visitStartTime')
-
-
+feat = 'channelGrouping'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = '19'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
 ##########################################################################################
 feat = 'device.browser'
-missing_value = 'other'
-clearRare(feat,train_df,test_df,tag=missing_value)
-check_me(feat)
-# numerical_feature.append(feat)
-category_feature.append(feat)
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
 ##########################################################################################
 feat = 'device.deviceCategory'
-check_me(feat)
-category_feature.append(feat)
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
 ##########################################################################################
 feat = 'device.isMobile'
-# clearRare(feat)
-# for df in (train_df,test_df):
-#     mask = ( df[feat] == 'other')
-#     df.loc[mask,feat] = 19
-check_me(feat)
-# numerical_feature.append(feat)
-category_feature.append(feat)
-
-
-
-cat_list1 = [
-    'device.operatingSystem',
-    'geoNetwork.city',
-    'geoNetwork.region',
-    'geoNetwork.region',
-    'geoNetwork.subContinent',
-]
-
-
-
-for feat in cat_list1:
-    missing_value = 'other'
-    clearRare(feat,train_df,test_df,tag=missing_value)
-    check_me(feat)
-    # numerical_feature.append(feat)
-    category_feature.append(feat)
-
-num_list1 = [
-    'totals.hits',
-    'totals.bounces',
-    'totals.newVisits',
-    
-
-]
-for feat in num_list1:
-    missing_value = '999'
-    clearRare(feat,train_df,test_df,tag=missing_value)
-    check_me(feat)
-    numerical_feature.append(feat)
-    # category_feature.append(feat)    
-
-
-
-
-
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
 ##########################################################################################
-# replace dot with space in feature geonetwork
-clean_networkdomain(train_df,test_df)
+feat = 'device.operatingSystem'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+##########################################################################################
+feat = 'geoNetwork.city'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'other'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
 
 ##########################################################################################
 feat = 'geoNetwork.metro'
-missing_value = 'other'
-clearRare(feat,train_df,test_df,tag=missing_value)
-category_feature.append(feat)
-# numerical_feature.append(feat)
-check_me(feat)
-
-
-
-
-
-
-
-
-os._exit(1)
-
-
-
-
-
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'other'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
 
 ##########################################################################################
-# reduce feature dimension
-feat = 'trafficSource.keyword'        
-print("--> Reduce Dimension for:",feat)
-train_df[feat] = train_df[feat].apply(lambda x: clean_keys(x))
-test_df[feat] = test_df[feat].apply(lambda x: clean_keys(x))
-
-feat = 'trafficSource.source'
-train_df[feat] = train_df[feat].apply(lambda x: clean_keys(x))
-test_df[feat] = test_df[feat].apply(lambda x: clean_keys(x))
-
-
-
-
-def clean_keys(df):
-    df['trafficSource.keyword'] =  df['trafficSource.keyword'].fillna('(not provided)')
-    
-clean_keys(train_df)
-clean_keys(test_df)
-
+feat = 'geoNetwork.country'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'other'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
 
 ##########################################################################################
-# Deal with visitStartTime
-print("---> Convert visitStartTime into multiple features")
-from sklearn.feature_extraction import DictVectorizer
-from datetime import datetime
-
-for df in (train_df,test_df):
-    df['year'] = df['visitStartTime'].apply(lambda x : 
-                                            datetime.utcfromtimestamp(x).strftime("%Y"))
-    df['month'] = df['visitStartTime'].apply(lambda x : 
-                                            datetime.utcfromtimestamp(x).strftime("%m"))
-    df['day'] = df['visitStartTime'].apply(lambda x : 
-                                            datetime.utcfromtimestamp(x).strftime("%d"))
-    df['hour'] = df['visitStartTime'].apply(lambda x : 
-                                            datetime.utcfromtimestamp(x).strftime("%H"))
-    df['day_week'] = df['visitStartTime'].apply(lambda x : 
-                                            datetime.utcfromtimestamp(x).strftime("%w"))
-    df['am_pm'] = df['visitStartTime'].apply(lambda x : 
-                                            datetime.utcfromtimestamp(x).strftime("%p"))
-
-
-
-
-
-# check_me('visitFreq',train_df)
-
-
-
-
+feat = 'geoNetwork.continent'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
 
 ##########################################################################################
-print("----> Deal with networkDomain feature")
+# clean geoNetwork.networkDomain
 feat = 'geoNetwork.networkDomain'
-for df in (test_df,train_df):
-    print("--->")
-    df[feat] = df[feat].apply(lambda x:x.replace('.',' '))
-
-# Use tfidfVectorizer to extract feature
-Tvect = TfidfVectorizer(ngram_range=(1,2),max_features=20000)
-vect = Tvect.fit(train_df[feat])
-train_vect = vect.transform(train_df[feat])
-test_vect = vect.transform(test_df[feat])
-svd = TruncatedSVD(n_components=10)
-vect_cols = ['vect'+str(x) for x in range(1,11)]
-df_train_vect = pd.DataFrame(svd.fit_transform(train_vect),columns=vect_cols)
-df_test_vect = pd.DataFrame(svd.fit_transform(test_vect),columns=vect_cols)
-train_df = pd.concat([train_df,df_train_vect],axis=1)
-test_df = pd.concat([test_df,df_test_vect],axis=1)
+clean_networkdomain(train_df,test_df,numerical_feature)
+to_drop.append(feat)
+# category_feature.append(feat)
+# print(numerical_feature)
+# os._exit(0)
 
 ##########################################################################################
-print("--> Search for features with items that have very low frequency \
-    and clean them into others ")
-##########################################################################################
-combine_small_features_list = [
-    'geoNetwork.city',
-    'geoNetwork.region',
-    'trafficSource.keyword',
-    'trafficSource.source'
-]
-for col in combine_small_features_list:
-    clearRare(train_df,test_df,columnname=col, limit = 1000)
-
-
-
+feat = 'geoNetwork.region'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'other'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
 
 ##########################################################################################
+feat = 'geoNetwork.subContinent'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
+##########################################################################################
+feat = 'totals.bounces'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+# os._exit(0)
+
+##########################################################################################
+feat = 'totals.hits'
+feat_type = 'numerical'
+# feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = '35'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
+##########################################################################################
+feat = 'totals.newVisits'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = '0'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
+##########################################################################################
+feat = 'totals.pageviews'
+feat_type = 'numerical'
+# feat_type = 'categorial'
+missing_fill = '0'
+combine_value = '29'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
+##########################################################################################
+feat = 'trafficSource.adContent'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'other'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
+##########################################################################################
+feat = 'trafficSource.adwordsClickInfo.adNetworkType'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'other'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
+##########################################################################################
+feat = 'trafficSource.adwordsClickInfo.gclId'
+to_drop.append(feat)
+
+##########################################################################################
+feat = 'trafficSource.adwordsClickInfo.isVideoAd'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = True
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
+##########################################################################################
+feat = 'trafficSource.adwordsClickInfo.page'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = '0'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+##########################################################################################
+feat = 'trafficSource.adwordsClickInfo.slot'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'other'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
+##########################################################################################
+feat = 'trafficSource.campaign'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
+##########################################################################################
+feat = 'trafficSource.isTrueDirect'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = False
+combine_value = 'NULL'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
 
 
-# print(train_df['totals.hits'])
+##########################################################################################
+feat = 'trafficSource.keyword'
+train_df[feat] = train_df[feat].apply(lambda x: clean_keys(x))
+test_df[feat] = test_df[feat].apply(lambda x: clean_keys(x))
+category_feature.append(feat)
 
-for col in cat_list:
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'Not Provided'
+combine_value = 'Combined'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
+##########################################################################################
+feat = 'trafficSource.medium'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'Not Provided'
+combine_value = 'Combined'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
+##########################################################################################
+feat = 'trafficSource.referralPath'
+to_drop.append(feat)
+
+
+##########################################################################################
+feat = 'trafficSource.source'
+# feat_type = 'numerical'
+feat_type = 'categorial'
+missing_fill = 'NULL'
+combine_value = 'Combined'   ## it is set to 'other' by default
+clean_current_feature(feat,feat_type,missing_fill,combine_value,
+    train_df,test_df,numerical_feature,category_feature)
+
+# print(train_df[feat])
+
+##########################################################################################
+category_feature.append('year')
+category_feature.append('month')
+category_feature.append('day')
+category_feature.append('hour')
+category_feature.append('day_week')
+category_feature.append('am_pm')
+##########################################################################################
+
+# print(numerical_feature)
+numerical_feature = set(numerical_feature)
+category_feature = set(category_feature)
+to_drop = set(to_drop)
+
+print("---> numerical feature num: ",len(numerical_feature))
+print(numerical_feature)
+print("---> Category feature num: ",len(category_feature))
+print(category_feature)
+print("---> Drop feature num: ",len(to_drop))
+print(to_drop)
+print("---> Totoal feature num: ",len(to_drop)+len(numerical_feature)
+    +len(category_feature))
+
+double_check_feature_type(train_df,test_df,numerical_feature,'float')
+double_check_feature_type(train_df,test_df,category_feature,'str')
+
+
+
+
+##########################################################################################
+# Encode categorial features
+for col in category_feature:
     print("-----> Encoding for: ", col)
     lbl = preprocessing.LabelEncoder()
     lbl.fit(list(train_df[col].values.astype('str')) + list(test_df[col].values.astype('str')))
@@ -302,25 +405,19 @@ for col in cat_list:
     test_df[col] = lbl.transform( list( test_df[col].values.astype('str')))
     
 
+##########################################################################################
+for col in to_drop:
+    print("--> Dropping column for:", col)
+    for df in train_df,test_df:
+        if col in df.columns:
+            df.drop(col,axis=1,inplace=True)
 
 
 ##########################################################################################
-print("---> drop more features that we dont need")
-to_drop = [
-    'geoNetwork.networkDomain'
-]
 
-##########################################################################################
-
-
+output_hdf(train_df,test_df)
 # output to hdf format
-output_col = [x for x in train_df.columns if x not in to_drop]
-train_out = train_df[output_col]
-output_col = [x for x in test_df.columns if x not in to_drop]
-test_out = test_df[output_col]
-print("---> output features into hdf format")
-train_df.to_hdf('../../data/train_df.h5',key='train_df',format='table')
-test_df.to_hdf('../../data/test_df.h5',key='test_df',format='table')
+
 
 
 

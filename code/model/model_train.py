@@ -52,10 +52,9 @@ class StackingAveragedModels(BaseEstimator, RegressorMixin, TransformerMixin):
     def __init__(self, base_models, meta_model, n_folds=5):
         self.base_models = base_models
         self.meta_model = meta_model
-        self.n_folds = n_folds
-   
-    # We again fit the data on clones of the original models
+        self.n_folds = n_folds    
     def fit(self, X, y):
+        # We again fit the data on clones of the original models
         self.base_models_ = [list() for x in self.base_models]
         self.meta_model_ = clone(self.meta_model)
         kfold = KFold(n_splits=self.n_folds, shuffle=True, random_state=156)
@@ -75,23 +74,20 @@ class StackingAveragedModels(BaseEstimator, RegressorMixin, TransformerMixin):
         # Now train the cloned  meta-model using the out-of-fold predictions as new feature
         self.meta_model_.fit(out_of_fold_predictions, y)
         return self
-   
-    #Do the predictions of all base models on the test data and use the averaged predictions as 
-    #meta-features for the final prediction which is done by the meta-model
     def predict(self, X):
+        #Do the predictions of all base models on the test data and use the averaged predictions as 
+        #meta-features for the final prediction which is done by the meta-model
         meta_features = np.column_stack([
             np.column_stack([model.predict(X) for model in base_models]).mean(axis=1)
             for base_models in self.base_models_ ])
         return self.meta_model_.predict(meta_features)
 
 class lets_train():
-    #
     # This is a class that:
     # 1. defines the models that we want to use
     # 2. including the parameter for each model a
     # 3. trains the model and predict on test set
     # 4. calculate all kinds of metrics of the model
-    
     def __init__(self,train_df,test_df,target,work_id):
         self.ID = work_id
         feat_to_drop = [
@@ -106,7 +102,6 @@ class lets_train():
         self.target = target
         
 
-#         print(self.train_df[self.target])
         self.train_x = self.train_df.drop(self.target,axis=1)
         self.train_y = np.log1p(self.train_df[target])
         
@@ -114,11 +109,8 @@ class lets_train():
         
         print("train shape is  ", self.train_df.shape)
         print("test shape is  ", self.test_df.shape)
-#         for col in self.train_df.columns:
-#             print("--> col %s unique number is %d \n" % ( col, len(self.train_df[col].unique())))
-        
-        
-    
+        # for col in self.train_df.columns:
+        #     print("--> col %s unique number is %d \n" % ( col, len(self.train_df[col].unique())))
     def run(self):
         
         # 1. define the modes that we want to use
@@ -137,9 +129,6 @@ class lets_train():
         self.sub_result()
         
         print(self.MLA)
-#         print(self.pred)
-
-    
     def define_models(self):
         MLA_Columns = ["ModelName","CVScoreMean","CVScoreSTD"]
         self.MLA = pd.DataFrame(columns=MLA_Columns)
@@ -152,19 +141,17 @@ class lets_train():
                         feature_fraction=0.5,
                         bagging_seed=2018),
                 "lasso":make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1)),
-                "elasticNet":make_pipeline(RobustScaler(), ElasticNet(alpha=0.0005, l1_ratio=.9, random_state=3)),
+                # "elasticNet":make_pipeline(RobustScaler(), ElasticNet(alpha=0.0005, l1_ratio=.9, random_state=3)),
                 ##"KRR":KernelRidge(alpha=0.6 ),
                 ##"KRR":KernelRidge(alpha=0.6, kernel='polynomial', degree=2, coef0=2.5),
-                "gboost":GradientBoostingRegressor(n_estimators=3000, learning_rate=0.05,
-                    max_depth=4, max_features='sqrt',min_samples_leaf=15, min_samples_split=10, 
-                    loss='huber', random_state =5),
+                # "gboost":GradientBoostingRegressor(n_estimators=3000, learning_rate=0.05,
+                #     max_depth=4, max_features='sqrt',min_samples_leaf=15, min_samples_split=10, 
+                #     loss='huber', random_state =5),
                 ##"xgboost":xgb.XGBRegressor(colsample_bytree=0.4603, gamma=0.0468, 
                     ##learning_rate=0.05, max_depth=3, min_child_weight=1.7817, n_estimators=2200,
                     ##reg_alpha=0.4640, reg_lambda=0.8571,subsample=0.5213, silent=1,
                     ##random_state =7, nthread = -1),
                 }
-        ##self.meta_models = {
-            ##}
 
         self.models1 = {
             "stack": StackingAveragedModels(
@@ -236,7 +223,6 @@ class lets_train():
             print("---> models we used include:",model)
          
         self.predictions = []
-    
     def train_predict(self):
         for model_name,model in self.models.items():
             print(" ---> Work on train&Predict for %s "% model)
@@ -244,7 +230,6 @@ class lets_train():
             pred_log = model.predict(self.test_x)
             pred = np.expm1(pred_log)
             self.pred[model_name] = pred
-    
     def cv_models(self):
         nfold = 3
         cv_split = model_selection.ShuffleSplit(n_splits=nfold,test_size=0.3,
@@ -265,7 +250,6 @@ class lets_train():
             self.MLA.loc[index,'CVScoreMean'] = rmse.mean()
             self.MLA.loc[index,'CVScoreSTD'] = rmse.std()
             index+=1
-
     def ensemble_models(self,method):
         if method is "averaging":
             weights = np.empty( len(self.models))
@@ -285,11 +269,7 @@ class lets_train():
                 self.pred['average'] = self.pred['average'] + self.pred[model_name] * weight
                 sum_weight = sum_weight + weight
                 index +=1
-            self.pred['average'] = self.pred['average'] / sum_weight
-
-
-
-            
+            self.pred['average'] = self.pred['average'] / sum_weight            
     def sub_result(self):
         for model_name,model in self.models.items():
             print("----> output submission for ", model_name)

@@ -5,16 +5,18 @@ import model_train
 import pandas as pd
 from model_train import lets_train
 
-sys.path.append('.')
+# sys.path.append('.')
 
-work_id = sys.argv[1]
-print("--> Work on ID: ",work_id)
+# work_id = sys.argv[1]
+# print("--> Work on ID: ",work_id)
 
 
+work_id = 'T1'
 
-train_df = pd.read_hdf("../data/train_df.h5",key="train_df")
-test_df = pd.read_hdf("../data/test_df.h5",key="test_df")
-
+train_df = pd.read_hdf("../../data/train_df1.h5",key="train_df")
+test_df = pd.read_hdf("../../data/test_df1.h5",key="test_df")
 
 my_train = lets_train(train_df,test_df,'totals.transactionRevenue',work_id)
 my_train.run()
+
+# print(train_df.shape)
