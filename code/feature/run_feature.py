@@ -33,8 +33,8 @@ from sklearn.decomposition import TruncatedSVD
 ##########################################################################################
 run_id = sys.argv[1]
 
-print(run_id)
-##run_id = "T1"
+# print(run_id)
+# run_id = "T1"
 print("----> Working on experiment: ",run_id)
 target = 'totals.transactionRevenue'
 
@@ -42,9 +42,10 @@ target = 'totals.transactionRevenue'
 # train_df = load_df('../data/train.csv')
 # test_df = load_df('../data/test.csv')
 print("----> Loading dataframe, takes about 2min")
-train_df = load_df('../../data/train1.csv')
-test_df = load_df('../../data/test1.csv')
-
+# train_df = load_df('../../data/train1.csv')
+# test_df = load_df('../../data/test1.csv')
+train_df = pd.read_csv("../../data/train1.csv")
+test_df = pd.read_csv("../../data/test1.csv")
 ##########################################################################################
 # Clean target
 train_df[target].fillna(0,inplace=True)
@@ -56,6 +57,7 @@ test_df['fullVisitorId'] = test_df['fullVisitorId'].astype('str')
 
 
 ##########################################################################################
+# columns that have only one value should be dropped
 sing_value_drop_list = ['socialEngagementType', 'device.browserSize',
        'device.browserVersion', 'device.flashVersion', 'device.language',
        'device.mobileDeviceBranding', 'device.mobileDeviceInfo',
@@ -74,14 +76,27 @@ drop_col(test_df,sing_value_drop_list)
 ##########################################################################################
 # Catergory different kind of features
 to_drop = []
-category_feature = []
-numerical_feature = []
+category_feature = ["channelGrouping", "device.browser", 
+            "device.deviceCategory", "device.operatingSystem", 
+            "geoNetwork.city", "geoNetwork.continent", 
+            "geoNetwork.country", "geoNetwork.metro",
+            "geoNetwork.networkDomain", "geoNetwork.region", 
+            "geoNetwork.subContinent", "trafficSource.adContent", 
+            "trafficSource.adwordsClickInfo.adNetworkType", 
+            "trafficSource.adwordsClickInfo.gclId", 
+            "trafficSource.adwordsClickInfo.page", 
+            "trafficSource.adwordsClickInfo.slot", "trafficSource.campaign",
+            "trafficSource.keyword", "trafficSource.medium", 
+            "trafficSource.referralPath", "trafficSource.source",
+            'trafficSource.adwordsClickInfo.isVideoAd', 'trafficSource.isTrueDirect']
+numerical_feature = ["totals.hits", "totals.pageviews", "visitNumber", "visitStartTime", 'totals.bounces',  'totals.newVisits']
+
 
 ##########################################################################################
 # Deal with visitStartTime
 feat = 'visitStartTime'
 clean_start_time(train_df)
-clean_start_time(test_df)
+clean_start_time(test_df)     
 to_drop.append(feat)
 # os._exit(1)
 ##########################################################################################
@@ -94,6 +109,9 @@ feat = 'sessionId'
 to_drop.append(feat)
 feat = 'visitId'
 to_drop.append(feat)
+
+
+
 
 
 ##########################################################################################
@@ -118,270 +136,34 @@ print("--> add extra columns based on fullVisitorId")
 
 
 
-# ##########################################################################################
-feat = 'visitNumber'
-feat_type = 'numerical'
-#     feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = '16'   ## it is set to 'other' by default
-# combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
 
-
-##########################################################################################
-feat = 'channelGrouping'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-##########################################################################################
-feat = 'device.browser'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-##########################################################################################
-feat = 'device.deviceCategory'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-##########################################################################################
-feat = 'device.isMobile'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-##########################################################################################
-feat = 'device.operatingSystem'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-##########################################################################################
-feat = 'geoNetwork.city'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'other'   ## it is set to 'other' by default
-# combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'geoNetwork.metro'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'other'   ## it is set to 'other' by default
-# combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'geoNetwork.country'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'other'   ## it is set to 'other' by default
-# combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'geoNetwork.continent'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
 
 ##########################################################################################
 # clean geoNetwork.networkDomain
-feat = 'geoNetwork.networkDomain'
+# feat = 'geoNetwork.networkDomain'
 # train_df, test_df = clean_networkdomain(train_df,test_df,numerical_feature)
-to_drop.append(feat)
+# to_drop.append(feat)
+
+
+
+##########################################################################################
+# feat = 'trafficSource.adwordsClickInfo.gclId'
+# to_drop.append(feat)
+
+
+##########################################################################################
+# feat = 'trafficSource.keyword'
+# train_df[feat] = train_df[feat].apply(lambda x: clean_keys(x))
+# test_df[feat] = test_df[feat].apply(lambda x: clean_keys(x))
 # category_feature.append(feat)
-# print(numerical_feature)
-# print(train_df['vect2'])
-# print(train_df.columns)
-# os._exit(0)
 
-##########################################################################################
-feat = 'geoNetwork.region'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-# combine_value = 'other'   ## it is set to 'other' by default
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'geoNetwork.subContinent'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'totals.bounces'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-# os._exit(0)
-
-##########################################################################################
-feat = 'totals.hits'
-feat_type = 'numerical'
-# feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = '35'   ## it is set to 'other' by default
-# combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'totals.newVisits'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = '0'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'totals.pageviews'
-feat_type = 'numerical'
-# feat_type = 'categorial'
-missing_fill = '0'
-combine_value = '29'   ## it is set to 'other' by default
-# combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'trafficSource.adContent'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'other'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'trafficSource.adwordsClickInfo.adNetworkType'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'other'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'trafficSource.adwordsClickInfo.gclId'
-to_drop.append(feat)
-
-##########################################################################################
-feat = 'trafficSource.adwordsClickInfo.isVideoAd'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = True
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'trafficSource.adwordsClickInfo.page'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = '0'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-##########################################################################################
-feat = 'trafficSource.adwordsClickInfo.slot'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'other'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'trafficSource.campaign'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'trafficSource.isTrueDirect'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = False
-combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
 
 
 ##########################################################################################
-feat = 'trafficSource.keyword'
-train_df[feat] = train_df[feat].apply(lambda x: clean_keys(x))
-test_df[feat] = test_df[feat].apply(lambda x: clean_keys(x))
-category_feature.append(feat)
-
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'Not Provided'
-combine_value = 'Combined'   ## it is set to 'other' by default
-# combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'trafficSource.medium'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'Not Provided'
-combine_value = 'Combined'   ## it is set to 'other' by default
-# combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
-
-##########################################################################################
-feat = 'trafficSource.referralPath'
-to_drop.append(feat)
+# feat = 'trafficSource.referralPath'
+# to_drop.append(feat)
 
 
-##########################################################################################
-feat = 'trafficSource.source'
-# feat_type = 'numerical'
-feat_type = 'categorial'
-missing_fill = 'NULL'
-combine_value = 'Combined'   ## it is set to 'other' by default
-# combine_value = 'NULL'   ## it is set to 'other' by default
-clean_current_feature(feat,feat_type,missing_fill,combine_value,
-    train_df,test_df,numerical_feature,category_feature)
 
 # print(train_df[feat])
 
@@ -410,6 +192,14 @@ print("---> Totoal feature num: ",len(to_drop)+len(numerical_feature)
 
 double_check_feature_type(train_df,test_df,numerical_feature,'float')
 double_check_feature_type(train_df,test_df,category_feature,'str')
+
+
+##########################################################################################
+# Fillna NA value
+for df in train_df,test_df:
+  df['totals.bounces'].fillna(0,inplace=True)
+  df['totals.newVisits'].fillna(0,inplace=True)
+  df['totals.pageviews'].fillna(0,inplace=True)
 
 
 

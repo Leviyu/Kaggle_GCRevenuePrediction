@@ -1,6 +1,7 @@
-#!/home/ubuntu/anaconda3/bin//python3
+#!/usr/local/bin/python3
 '''
 Feature Exploration
+###!/home/ubuntu/anaconda3/bin//python3
 
 
 '''
@@ -34,10 +35,10 @@ from sklearn.metrics import mean_squared_error
 
 ##########################################################################################
 # run_id = sys.argv[1]
-run_id = 1
+run_id = "T1"
 
 print(run_id)
-##run_id = "T1"
+run_id = "T1"
 print("----> Working on experiment: ",run_id)
 target = 'totals.transactionRevenue'
 
