@@ -7,8 +7,8 @@ from feature.kit import *
 max_row = 50000
 
 
-train_file = "../data/train.csv"
-test_file = "../data/test.csv"
+train_file = "../data/train_v2.csv"
+test_file = "../data/test_v2.csv"
 
 
 train = load_df(train_file,nrows=max_row)
