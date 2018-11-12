@@ -1,8 +1,6 @@
+#!/bin/tcsh
 
+mkdir -p ~/.kaggle
+cp ./kaggle.json ~/.kaggle/
+cp ./vimrc ~/.vimrc
 
-sudo apt install tcsh
-sudo apt-get install htop
-conda upgrade pandas
-conda install -c conda-forge lightgbm
-conda install -c conda-forge xgboost
-pip install --user kaggle
