@@ -1,0 +1,57 @@
+set nocompatible  "" not compatible with VI
+" go back to previous location since last time closed vim
+au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
+
+map qq :q<return> 
+map fff <C-W><C-W>
+map t I//<esc>
+map T I##<esc>
+map tt ^xx
+map ff zfa{
+map kk <C-X><C-O> 
+"" map mm to execute current script
+map mm :w<CR>:!perl %<CR>
+
+
+
+"" Tab and Backspace
+set sw=2
+set tabstop=4
+set shiftwidth=4
+set cindent
+set smartindent
+set autoindent
+set backspace=indent,eol,start  "" set backspace
+
+"" Display
+set number        "" show line number
+set ruler         "" always show current position
+set cursorline    "" highlight the current line
+set showcmd
+
+"" Searching
+""set ignorecase    "" search setting
+set incsearch
+set hlsearch
+set showmatch
+set history=100
+
+
+
+"" Syntax and color scheme
+syntax enable
+
+filetype plugin indent on    " required
+" " To ignore plugin indent changes, instead use:
+" "filetype plugin on
+" "
+" " Brief help
+" " :PluginList       - lists configured plugins
+" " :PluginInstall    - installs plugins; append `!` to update or just
+" :PluginUpdate
+" " :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" " :PluginClean      - confirms removal of unused plugins; append `!` to
+" auto-approve removal
+" "
+" " see :h vundle for more details or wiki for FAQ
+" " Put your non-Plugin stuff after this line
