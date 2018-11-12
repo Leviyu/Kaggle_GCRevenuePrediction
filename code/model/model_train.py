@@ -120,27 +120,27 @@ class lets_train():
         self.cv_models()
         
         # 3. use models to train and predict
-        self.train_predict()
+        # self.train_predict()
         
         # 4. Ensemble models
-        self.ensemble_models(method="averaging")
+        # self.ensemble_models(method="averaging")
 
         # 4. output submitted result
-        self.sub_result()
+        # self.sub_result()
         
         print(self.MLA)
     def define_models(self):
         MLA_Columns = ["ModelName","CVScoreMean","CVScoreSTD"]
         self.MLA = pd.DataFrame(columns=MLA_Columns)
         self.base_models={
-                # "lgb" : lgb.LGBMRegressor(
-                #         num_leaves=30,
-                #         metric="rmse",
-                #         min_child_samples=100,
-                #         learning_rate=0.1,
-                #         bagging_fraction=0.7,
-                #         feature_fraction=0.5,
-                #         bagging_seed=2018),
+                "lgb" : lgb.LGBMRegressor(
+                        num_leaves=30,
+                        metric="rmse",
+                        min_child_samples=100,
+                        learning_rate=0.1,
+                        bagging_fraction=0.7,
+                        feature_fraction=0.5,
+                        bagging_seed=2018),
                 "lasso":make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1)),
                 "elasticNet":make_pipeline(RobustScaler(), ElasticNet(alpha=0.0005, l1_ratio=.9, random_state=3)),
                 # ##"KRR":KernelRidge(alpha=0.6 ),
@@ -207,9 +207,20 @@ class lets_train():
         self.models4 = {
                 "lasso":make_pipeline(RobustScaler(), Lasso(alpha =0.0005, random_state=1)),
                 }
+        self.model5 = {
+                "lgb" : lgb.LGBMRegressor(
+                        num_leaves=30,
+                        metric="rmse",
+                        min_child_samples=100,
+                        learning_rate=0.1,
+                        bagging_fraction=0.7,
+                        feature_fraction=0.5,
+                        bagging_seed=2018),                
+                }
 
         self.models = self.base_models;
         ##self.models = self.models4;
+        # self.models = self.model5 ;
     
         index = 0
         for  model,value in self.models.items():
@@ -245,12 +256,14 @@ class lets_train():
                                            scoring='neg_mean_squared_error',
                                            cv = cv_split,n_jobs=5))
                                            ##cv = cv_split))
+            print(rmse)
             end = time.time()
             print("  time spent: ", end-start)
 
             self.MLA.loc[index,'CVScoreMean'] = rmse.mean()
             self.MLA.loc[index,'CVScoreSTD'] = rmse.std()
             index+=1
+        print(self.MLA)
     def ensemble_models(self,method):
         if method is "averaging":
             weights = np.empty( len(self.models))

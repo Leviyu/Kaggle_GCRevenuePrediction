@@ -8,6 +8,9 @@ echo "--> ERROR ID IS EMPTY!"
 exit 0
 endif
 
-csh $PWD/_run.sh $ID > & /dev/null &
+
+set log = $PWD/LOG/log.${ID}
+
+csh $PWD/_run.sh $ID > & $log &
 
 

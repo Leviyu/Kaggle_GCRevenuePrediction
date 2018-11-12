@@ -13,6 +13,12 @@ from sklearn.decomposition import TruncatedSVD
 
 
 
+def my_exit():
+
+  print(train_df.columns)
+  os._exit(0)
+  
+
 
 target = 'totals.transactionRevenue'
 global train_df

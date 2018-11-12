@@ -95,15 +95,15 @@ numerical_feature = ["totals.hits", "totals.pageviews", "visitNumber", "visitSta
 ##########################################################################################
 # Deal with visitStartTime
 feat = 'visitStartTime'
-clean_start_time(train_df)
-clean_start_time(test_df)     
+# clean_start_time(train_df)
+# clean_start_time(test_df)     
 to_drop.append(feat)
 # os._exit(1)
 ##########################################################################################
 # Drop col in train
 to_drop.append('trafficSource.campaignCode')
 ##########################################################################################
-category_feature.append('channelGrouping')
+# category_feature.append('channelGrouping')
 to_drop.append('date')
 feat = 'sessionId'
 to_drop.append(feat)
@@ -168,12 +168,12 @@ print("--> add extra columns based on fullVisitorId")
 # print(train_df[feat])
 
 ##########################################################################################
-category_feature.append('year')
-category_feature.append('month')
-category_feature.append('day')
-category_feature.append('hour')
-category_feature.append('day_week')
-category_feature.append('am_pm')
+# category_feature.append('year')
+# category_feature.append('month')
+# category_feature.append('day')
+# category_feature.append('hour')
+# category_feature.append('day_week')
+# category_feature.append('am_pm')
 ##########################################################################################
 
 # print(numerical_feature)
@@ -213,13 +213,13 @@ for col in category_feature:
     train_df[col] = lbl.transform( list(train_df[col].values.astype('str')))
     test_df[col] = lbl.transform( list( test_df[col].values.astype('str')))
     
-
 ##########################################################################################
 for col in to_drop:
     print("--> Dropping column for:", col)
     for df in train_df,test_df:
         if col in df.columns:
             df.drop(col,axis=1,inplace=True)
+
 
 
 ##########################################################################################
