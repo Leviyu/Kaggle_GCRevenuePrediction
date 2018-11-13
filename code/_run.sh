@@ -4,7 +4,7 @@
 
 set PWD = `pwd`
 set ID = $1
-set MAX = 50000
+set MAX = 5000
 
 if( $ID == "" ) then
 echo "---> ID is NULL"
@@ -18,7 +18,7 @@ echo "---> Working on ID: $ID"
 
 cd ../data
 echo "---> Cut out the first $MAX line for both train and test" 
-csh get_sample.sh $MAX  
+csh $PWD/get_sample.sh $MAX  
 
 ###########################################################################
 # Run for feature processing

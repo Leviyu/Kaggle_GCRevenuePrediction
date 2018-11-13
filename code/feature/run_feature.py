@@ -31,10 +31,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 
 ##########################################################################################
-run_id = sys.argv[1]
+# run_id = sys.argv[1]
 
 # print(run_id)
-# run_id = "T1"
+run_id = "T1"
 print("----> Working on experiment: ",run_id)
 target = 'totals.transactionRevenue'
 
@@ -226,7 +226,7 @@ for col in to_drop:
 
 output_hdf(train_df,test_df,run_id)
 # output to hdf format
-
+print(train_df)
 
 
 

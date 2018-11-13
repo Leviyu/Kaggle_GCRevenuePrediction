@@ -9,11 +9,11 @@ from tool import *
 
 # sys.path.append('.')
 
-work_id = sys.argv[1]
-# work_id = "T1"
+# work_id = sys.argv[1]
+work_id = "T1"
 print("--> Model training Work on ID: ",work_id)
-train_file = "../../data/train_df."+work_id+".h5"
-test_file = "../../data/test_df."+work_id+".h5"
+train_file = "../../data/train_df.h5"
+test_file = "../../data/test_df.h5"
 
 
 train_df = pd.read_hdf(train_file,key="train_df")

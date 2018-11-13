@@ -1,21 +1,225 @@
----> Cut out the first 25000 line for both train and test
+---> Working on ID: T1
+---> Cut out the first 5000 line for both train and test
+{'text/html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>", 'text/vnd.plotly.v1+html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>"}
+----> Working on experiment:  T1
+----> Loading dataframe, takes about 2min
+--> now dropping:  socialEngagementType
+--> now dropping:  device.browserSize
+--> now dropping:  device.browserVersion
+--> now dropping:  device.flashVersion
+--> now dropping:  device.language
+--> now dropping:  device.mobileDeviceBranding
+--> now dropping:  device.mobileDeviceInfo
+--> now dropping:  device.mobileDeviceMarketingName
+--> now dropping:  device.mobileDeviceModel
+--> now dropping:  device.mobileInputSelector
+--> now dropping:  device.operatingSystemVersion
+--> now dropping:  device.screenColors
+--> now dropping:  device.screenResolution
+--> now dropping:  geoNetwork.cityId
+--> now dropping:  geoNetwork.latitude
+--> now dropping:  geoNetwork.longitude
+--> now dropping:  geoNetwork.networkLocation
+--> now dropping:  totals.visits
+--> now dropping:  trafficSource.adwordsClickInfo.criteriaParameters
+--> now dropping:  socialEngagementType
+--> now dropping:  device.browserSize
+--> now dropping:  device.browserVersion
+--> now dropping:  device.flashVersion
+--> now dropping:  device.language
+--> now dropping:  device.mobileDeviceBranding
+--> now dropping:  device.mobileDeviceInfo
+--> now dropping:  device.mobileDeviceMarketingName
+--> now dropping:  device.mobileDeviceModel
+--> now dropping:  device.mobileInputSelector
+--> now dropping:  device.operatingSystemVersion
+--> now dropping:  device.screenColors
+--> now dropping:  device.screenResolution
+--> now dropping:  geoNetwork.cityId
+--> now dropping:  geoNetwork.latitude
+--> now dropping:  geoNetwork.longitude
+--> now dropping:  geoNetwork.networkLocation
+--> now dropping:  totals.visits
+--> now dropping:  trafficSource.adwordsClickInfo.criteriaParameters
+--> add extra columns based on fullVisitorId
+---> numerical feature num:  6
+{'totals.hits', 'totals.pageviews', 'visitNumber', 'totals.newVisits', 'totals.bounces', 'visitStartTime'}
+---> Category feature num:  23
+{'trafficSource.adwordsClickInfo.page', 'trafficSource.campaign', 'trafficSource.adContent', 'trafficSource.keyword', 'trafficSource.adwordsClickInfo.slot', 'trafficSource.adwordsClickInfo.gclId', 'trafficSource.adwordsClickInfo.isVideoAd', 'device.browser', 'geoNetwork.networkDomain', 'trafficSource.isTrueDirect', 'geoNetwork.country', 'trafficSource.referralPath', 'geoNetwork.region', 'trafficSource.adwordsClickInfo.adNetworkType', 'geoNetwork.continent', 'trafficSource.source', 'device.operatingSystem', 'geoNetwork.subContinent', 'device.deviceCategory', 'geoNetwork.metro', 'trafficSource.medium', 'geoNetwork.city', 'channelGrouping'}
+---> Drop feature num:  5
+{'date', 'trafficSource.campaignCode', 'visitStartTime', 'sessionId', 'visitId'}
+---> Totoal feature num:  34
+---> Checking feature type for:  totals.hits
+---> Checking feature type for:  totals.pageviews
+---> Checking feature type for:  visitNumber
+---> Checking feature type for:  totals.newVisits
+---> Checking feature type for:  totals.bounces
+---> Checking feature type for:  visitStartTime
+---> Checking feature type for:  trafficSource.adwordsClickInfo.page
+---> Checking feature type for:  trafficSource.campaign
+---> Checking feature type for:  trafficSource.adContent
+---> Checking feature type for:  trafficSource.keyword
+---> Checking feature type for:  trafficSource.adwordsClickInfo.slot
+---> Checking feature type for:  trafficSource.adwordsClickInfo.gclId
+---> Checking feature type for:  trafficSource.adwordsClickInfo.isVideoAd
+---> Checking feature type for:  device.browser
+---> Checking feature type for:  geoNetwork.networkDomain
+---> Checking feature type for:  trafficSource.isTrueDirect
+---> Checking feature type for:  geoNetwork.country
+---> Checking feature type for:  trafficSource.referralPath
+---> Checking feature type for:  geoNetwork.region
+---> Checking feature type for:  trafficSource.adwordsClickInfo.adNetworkType
+---> Checking feature type for:  geoNetwork.continent
+---> Checking feature type for:  trafficSource.source
+---> Checking feature type for:  device.operatingSystem
+---> Checking feature type for:  geoNetwork.subContinent
+---> Checking feature type for:  device.deviceCategory
+---> Checking feature type for:  geoNetwork.metro
+---> Checking feature type for:  trafficSource.medium
+---> Checking feature type for:  geoNetwork.city
+---> Checking feature type for:  channelGrouping
+-----> Encoding for:  trafficSource.adwordsClickInfo.page
+-----> Encoding for:  trafficSource.campaign
+-----> Encoding for:  trafficSource.adContent
+-----> Encoding for:  trafficSource.keyword
+-----> Encoding for:  trafficSource.adwordsClickInfo.slot
+-----> Encoding for:  trafficSource.adwordsClickInfo.gclId
+-----> Encoding for:  trafficSource.adwordsClickInfo.isVideoAd
+-----> Encoding for:  device.browser
+-----> Encoding for:  geoNetwork.networkDomain
+-----> Encoding for:  trafficSource.isTrueDirect
+-----> Encoding for:  geoNetwork.country
+-----> Encoding for:  trafficSource.referralPath
+-----> Encoding for:  geoNetwork.region
+-----> Encoding for:  trafficSource.adwordsClickInfo.adNetworkType
+-----> Encoding for:  geoNetwork.continent
+-----> Encoding for:  trafficSource.source
+-----> Encoding for:  device.operatingSystem
+-----> Encoding for:  geoNetwork.subContinent
+-----> Encoding for:  device.deviceCategory
+-----> Encoding for:  geoNetwork.metro
+-----> Encoding for:  trafficSource.medium
+-----> Encoding for:  geoNetwork.city
+-----> Encoding for:  channelGrouping
+--> Dropping column for: date
+--> Dropping column for: trafficSource.campaignCode
+--> Dropping column for: visitStartTime
+--> Dropping column for: sessionId
+--> Dropping column for: visitId
+---> Write to hdf
+---> Write to hdf done
+      channelGrouping         ...          trafficSource.source
+0                   3         ...                            20
+1                   5         ...                            51
+2                   1         ...                             0
+3                   3         ...                            20
+4                   3         ...                            20
+5                   5         ...                             0
+6                   5         ...                            51
+7                   3         ...                            20
+8                   3         ...                            20
+9                   3         ...                            20
+10                  3         ...                            20
+11                  3         ...                            20
+12                  3         ...                            20
+13                  4         ...                            20
+14                  3         ...                            20
+15                  3         ...                            20
+16                  3         ...                            20
+17                  3         ...                            20
+18                  5         ...                             4
+19                  3         ...                            20
+20                  3         ...                            20
+21                  3         ...                            20
+22                  3         ...                            20
+23                  3         ...                            20
+24                  3         ...                            20
+25                  3         ...                            20
+26                  3         ...                            20
+27                  3         ...                            20
+28                  3         ...                            20
+29                  3         ...                            20
+...               ...         ...                           ...
+4969                6         ...                            56
+4970                6         ...                            56
+4971                6         ...                            56
+4972                6         ...                            56
+4973                6         ...                            56
+4974                6         ...                            56
+4975                6         ...                            56
+4976                6         ...                            56
+4977                6         ...                            56
+4978                6         ...                            56
+4979                6         ...                            56
+4980                6         ...                            56
+4981                6         ...                            56
+4982                6         ...                            56
+4983                6         ...                            56
+4984                6         ...                            56
+4985                6         ...                            56
+4986                6         ...                            56
+4987                6         ...                            56
+4988                6         ...                            56
+4989                6         ...                            56
+4990                6         ...                            56
+4991                6         ...                            56
+4992                6         ...                            56
+4993                6         ...                            56
+4994                6         ...                            56
+4995                6         ...                            56
+4996                6         ...                            56
+4997                6         ...                            56
+4998                6         ...                            56
+
+[4999 rows x 37 columns]/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning:
+
+the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+
+/usr/local/lib/python3.7/site-packages/lightgbm/__init__.py:46: UserWarning:
+
+Starting from version 2.2.1, the library file in distribution wheels for macOS is built by the Apple Clang (Xcode_9.4.1) compiler.
+This means that in case of installing LightGBM from PyPI via the ``pip install lightgbm`` command, you don't need to install the gcc compiler anymore.
+Instead of that, you need to install the OpenMP library, which is required for running LightGBM on the system with the Apple Clang compiler.
+You can install the OpenMP library by the following command: ``brew install libomp``.
+
+
+{'text/html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>", 'text/vnd.plotly.v1+html': "<script>requirejs.config({paths: { 'plotly': ['https://cdn.plot.ly/plotly-latest.min']},});if(!window.Plotly) {{require(['plotly'],function(plotly) {window.Plotly=plotly;});}}</script>"}
+--> Model training Work on ID:  T1
+----> train_df shape is: (4999, 37)
+---> our model pipline is created
+train shape is   (4999, 36)
+test shape is   (4999, 36)
+---> models we used include: lgb
+---> models we used include: lasso
+---> models we used include: elasticNet
+---> models we used include: gboost
+---> models we used include: xgboost
+ ---> Work on CV for lgb 
+/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning:
+
+the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+
 Traceback (most recent call last):
-  File "run_feature.py", line 21, in <module>
-    from plotly import tools
-  File "/usr/local/lib/python3.7/site-packages/plotly/__init__.py", line 31, in <module>
-    from plotly import (plotly, dashboard_objs, graph_objs, grid_objs, tools,
-  File "/usr/local/lib/python3.7/site-packages/plotly/plotly/__init__.py", line 10, in <module>
-    from . plotly import (
-  File "/usr/local/lib/python3.7/site-packages/plotly/plotly/plotly.py", line 35, in <module>
-    from plotly.graph_objs import Scatter
-  File "/usr/local/lib/python3.7/site-packages/plotly/graph_objs/__init__.py", line 56, in <module>
-    from plotly.graph_objs import cone
-  File "/usr/local/lib/python3.7/site-packages/plotly/graph_objs/cone/__init__.py", line 2, in <module>
-    from ._lightposition import Lightposition
-  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
-  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
-  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
-  File "<frozen importlib._bootstrap_external>", line 724, in exec_module
-  File "<frozen importlib._bootstrap_external>", line 857, in get_code
-  File "<frozen importlib._bootstrap_external>", line 525, in _compile_bytecode
-KeyboardInterrupt
+  File "run_model.py", line 25, in <module>
+    my_train.run()
+  File "/Users/Leviyu/Hongyu/github/Kaggle_GCRevenuePrediction/code/model/model_train.py", line 120, in run
+    self.cv_models()
+  File "/Users/Leviyu/Hongyu/github/Kaggle_GCRevenuePrediction/code/model/model_train.py", line 257, in cv_models
+    cv = cv_split,n_jobs=5))
+  File "/usr/local/lib/python3.7/site-packages/sklearn/model_selection/_validation.py", line 402, in cross_val_score
+    error_score=error_score)
+  File "/usr/local/lib/python3.7/site-packages/sklearn/model_selection/_validation.py", line 240, in cross_validate
+    for train, test in cv.split(X, y, groups))
+  File "/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/parallel.py", line 996, in __call__
+    self.retrieve()
+  File "/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/parallel.py", line 899, in retrieve
+    self._output.extend(job.get(timeout=self.timeout))
+  File "/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/_parallel_backends.py", line 517, in wrap_future_result
+    return future.result(timeout=timeout)
+  File "/usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python3.7/concurrent/futures/_base.py", line 432, in result
+    return self.__get_result()
+  File "/usr/local/Cellar/python/3.7.0/Frameworks/Python.framework/Versions/3.7/lib/python3.7/concurrent/futures/_base.py", line 384, in __get_result
+    raise self._exception
+sklearn.externals.joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
+/usr/local/lib/python3.7/site-packages/sklearn/externals/joblib/externals/cloudpickle/cloudpickle.py:47: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp

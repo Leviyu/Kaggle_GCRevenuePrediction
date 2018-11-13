@@ -11,18 +11,14 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
   
 
+target = 'totals.transactionRevenue'
+
 
 
 def my_exit():
 
   print(train_df.columns)
   os._exit(0)
-  
-
-
-target = 'totals.transactionRevenue'
-global train_df
-global test_df
 
 def load_df(csv_path='../data/train.csv', nrows=None):
     JSON_COLUMNS = ['device', 'geoNetwork', 'totals', 'trafficSource']
@@ -260,15 +256,21 @@ def clean_networkdomain(train_df,test_df,numerical_feature):
     numerical_feature.append(vv)
   return train_df,test_df
 def output_hdf(train_df,test_df,run_id):
+  print("---> Write to hdf")
   # output to hdf format
   train_out = train_df
   test_out = test_df
 
-  train_file = "../../data/train_df."+run_id+".h5"
-  test_file = "../../data/test_df."+run_id+".h5"
+  # train_file = "../../data/train_df.h5"
+  # test_file = "../../data/test_df.h5"
 
-  train_df.to_hdf(train_file,key='train_df',format='table')
-  test_df.to_hdf(test_file,key='test_df',format='table')
+  train_file = "../../data/train3.csv"
+  test_file = "../../data/test3.csv"
+  train_df.to_csv(train_file,index=False)
+  test_df.to_csv(test_file,index=False)
+
+  # train_df.to_hdf(train_file,key='train_df',format='table')
+  # test_df.to_hdf(test_file,key='test_df',format='table')
   print("---> Write to hdf done")
 
 
