@@ -1,0 +1,14 @@
+#!/bin/tcsh
+
+
+
+set ID = $1
+
+
+if($ID == "" || $ID == " ") then
+echo "ID Unknown"
+exit 0
+endif
+
+
+ps aux|grep $ID |awk '{print $2}' |xargs kill -9
