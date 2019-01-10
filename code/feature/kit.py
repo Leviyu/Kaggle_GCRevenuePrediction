@@ -108,7 +108,6 @@ def check_me(feat,train_df):
     print(" -----> totoal size of current feature is:",no_zero_df.groupby(feat)[feat].size().shape[0])
     plt.show()   
 def check_me2(feat,train_df):
-    target='totals.transactionRevenue'
     # two plots needed for non-zero revenue cases
     # 1. plot of relationship between feature and target, we only show the top 10
     # 2. plot the frequency of each dimension of current feature, based on the same 10 
@@ -128,11 +127,12 @@ def check_me2(feat,train_df):
     meta = check_meta_df(train_df,feat)
     print(meta[meta.index==feat].T)
     
+
     if unique_num_all > 400:
         print("Current feature have more then 100 dimensions, break")
         return
     #     print(no_zero_df.groupby(feat)[target].sum())
-    fig,(ax1,ax2,ax3,ax4) = plt.subplots(4,1)
+    fig,(ax1,ax2,ax3,ax4) = plt.subplots(2,2)
     fig.subplots_adjust(hspace=0.6)
     plt.title(feat)
     no_zero_df.groupby(feat)[target].sum().plot(x=feat,y=target,kind='bar',figsize=(12,10)
@@ -185,25 +185,25 @@ def clean_current_feature(feat, feat_type, missing_fill,combine_value,
       test_df[feat] = test_df[feat].astype('str')
         
     # check_me(feat)
-def check_meta_df(df):
-    target='totals.transactionRevenue'
+def check_meta_df(df,feat):
     # this function prints the meta info that I would like to see for each feature
-    meta_feat = ['type','uniqueCount','q01count','q05count','min','max','mean']
+    meta_feat = ['type','uniqueCount','NonPer','q01count','q05count','min','max','mean']
     meta = pd.DataFrame(columns=meta_feat)
-    for index,col_name in enumerate(df.columns):
-        col = df[col_name]
-        #         print('--> on: ',col_name)
-        meta.at[col_name,'type'] = col.dtypes
-        meta.at[col_name,'uniqueCount'] = col.unique().shape[0]
+    col_name = feat
+    col = df[col_name]
+    #         print('--> on: ',col_name)
+    meta.at[col_name,'type'] = col.dtypes
+    meta.at[col_name,'NonPer'] = col.isnull().sum()/col.shape[0] * 100 
+    meta.at[col_name,'uniqueCount'] = col.unique().shape[0]
 
-        freq = df.groupby(col_name)[col_name].count() / df.shape[0]
-        meta.at[col_name,'q01count'] = (freq < 0.001).sum() / freq.shape[0]
-        meta.at[col_name,'q05count'] = (freq < 0.005).sum() / freq.shape[0]
-        if 'float' in str(df[col_name].dtype) or 'int' in str(df[col_name].dtype):
-            meta.at[col_name,'min'] = col.min()
-            meta.at[col_name,'max'] = col.max()
-            meta.at[col_name,'mean'] = col.mean()
-            meta.at[col_name,'skewness'] = col.skew()        
+    freq = df.groupby(col_name)[col_name].count() / df.shape[0]
+    meta.at[col_name,'q01count'] = (freq < 0.001).sum() / freq.shape[0]
+    meta.at[col_name,'q05count'] = (freq < 0.005).sum() / freq.shape[0]
+    if 'float' in str(df[col_name].dtype) or 'int' in str(df[col_name].dtype):
+        meta.at[col_name,'min'] = col.min()
+        meta.at[col_name,'max'] = col.max()
+        meta.at[col_name,'mean'] = col.mean()
+        meta.at[col_name,'skewness'] = col.skew()        
     print(meta)
 def get_unique_col(df):
   out = pd.DataFrame()
